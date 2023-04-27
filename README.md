@@ -1,37 +1,89 @@
 # WeChatGPT_JSB
 
-#### 介绍
+## 介绍
 本项目实现了【微信公众号对接OpenAI】，实现了 ChatGPT 聊天对话功能，仅需要手机与公众号聊天即可，其余的交给代码实现。 没有任何门槛。
+- 先给大家看下效果（大家也可以先关注公众号体验一下）
+![](pictures/微信公众号效果图.png)
+- 公众号二维码
+<div style="text-align:center">
+    <img src="pictures/公众号二维码.jpg">
+</div>
 
-#### 软件架构
-软件架构说明
+## 软件架构
+- Python 3.9+
+- Flask 架构
+- Redis 集群
+- OpenAI、微信公众平台普通消息接口
+
+## 安装教程
+1.  使用 pip 进行安装模块
+    ```
+    pip install -r requirements.txt
+    ```
+2. 运行 
+    ```commandline
+    python3 WeChatController.py
+    或后台启动
+    nohup python3 WeChatController.py >/dev/null 2>&1 &
+    ```
+
+## 使用说明
+
+#### 【1】settings.py 说明
+| key                  | value 含义            | 说明                                             |
+|----------------------|---------------------|------------------------------------------------|
+| weToken              | 微信公众号的 token        | 需要开通并启用服务器配置（需要域名）                             |
+| chat_gpt_key         | openai 的的 api_key   | 不会申请的看我公众号：javastarboy                         |
+| txProxyUrl           | 腾讯云服务器函数服务，跳转硅谷区域代理 | 也可使用其他代理方式                                     |
+| clearSessionTime     | 会话 session 自动失效时间，秒 | 超过此时间清空会话记录，也可不清空，看自己意愿                        |
+| interceptionLength   | 历史对话返回字节长度          | 微信支持的最大字节 2048，大概 600 个汉字左右                    |
+| host、port、password 、db | redis 单机配置方式        | 此项目使用的集群模式，工具类 RedisUtil.py 也是集群，如果用单机，改一下代码即可 |
+| startup_nodes   | 集群的配置节点             | 工具类 RedisUtil.py                                         |
+| sentinel_list          | 哨兵模式的配置节点       | 工具类 RedisUtil.py                                        |
 
 
-#### 安装教程
+#### 【2】代理服务说明
+我用的是腾讯云的函数代理服务，购买的是美国硅谷服务器，所以网络问题自然不存在了。
+随时可用，没有门槛，解决了大问题了。
+需要教程的关注我微信公众号：javastarboy 即可获取。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 【3】微信公众号服务器配置启用说明
+`需要详细教程的也可以关注我微信公众号：javastarboy 即可获取。`
+- 登录 [微信公众平台](https://mp.weixin.qq.com/)
+- 点击左侧菜单【设置与开发】
+- 点击菜单【基本配置】
+- 下滑配置【服务器配置】
+- 填写【服务器地址(URL)】与【令牌(Token)】
+- 右侧点击【启用】
+  > 注意：如果不启用是没效果的，同时自定义的菜单、自定义回复都将失效
 
-#### 使用说明
+## 功能清单
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+- [x] 回复消息「继续」查看 ChatGPT 最近一次回答内容
+- [x] 回复消息「历史对话」记录查看
+- [x] 回复消息「继续写」让 ChatGPT 输出新的回答
+- [x] 回复消息「功能说明」查看功能清单与使用说明
+- [x] 回复消息「stop」清空会话记录
+- [ ] 客服消息接口对接，延迟消息自动回复给用户，无需手动回复 「继续」获取结果
+- [ ] 支持语音问答
 
 
-#### 特技
+## 网页版 ChatGPT 开发
+网页版开发也在进行中，目前已经初具雏形，功能已经全都实现了。 还有一些优化在进行中，待优化完毕与大家见面。
+- 先看下效果（写于 2023 年 4 月 24 日）
+![](pictures/网页版效果.png)
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+# 赞助
+***
+如果你觉得这个项目对你有帮助，并且情况允许的话，可以给我一点点支持，总之非常感谢支持～
+
+## 微信
+<div style="text-align:center">
+    <img src="pictures/微信收款码.png">
+</div>
+
+## 支付宝
+<div style="text-align:center">
+    <img src="pictures/支付宝收款码.png">
+</div>
