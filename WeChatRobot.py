@@ -186,7 +186,7 @@ def chatRobot():
                 time.sleep(3)
                 lastContent = getLastAnswer(FromUserName)
                 if lastContent is None:
-                    lastContent = "GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n 哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n!!!强烈建议!!!回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+                    lastContent = "GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
 
             return generate_response_xml(FromUserName, ToUserName, lastContent)
 

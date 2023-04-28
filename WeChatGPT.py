@@ -33,6 +33,8 @@ messages = [
 headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer " + chat_gpt_key,
+    # 函数代理不想做鉴权，但又不想没校验，临时在头信息加了个校验
+    "check": "check"
 }
 
 
