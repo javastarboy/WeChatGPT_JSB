@@ -224,7 +224,7 @@ def chatRobot():
                 lastContent = getLastAnswer(FromUserName)
                 if lastContent is None:
                     print("请求超时，耗时：", (time.time() - float(CreateTime)))
-                    lastContent = "GPT已开始处理，请稍等片刻后回复 「继续」 查看回复!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+                    lastContent = "GPT马上处理完，就差一丢丢了，请回复 「继续」 查看结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
             else:
                 # 微信第二次请求, 因为没有客服接口，为了尽量提升用户体验，咱们等到微信第三次请求再决定是否让客户回复继续获取结果
