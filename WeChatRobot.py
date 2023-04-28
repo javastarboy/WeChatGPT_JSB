@@ -248,7 +248,7 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     else:
         return generate_response_xml(FromUserName, ToUserName,
-                                     '对不起，目前仅支持文本消息，可以试试在对话框输入文字来向我提问！')
+                                     '对不起，目前仅支持文本消息以及语音消息（中国-普通话），可以试试在对话框输入文字来向我提问！')
 
 
 def generate_response_xml(FromUserName, ToUserName, output_content):
