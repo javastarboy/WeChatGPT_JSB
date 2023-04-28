@@ -7,6 +7,7 @@ import requests
 import werobot
 from flask import Flask, request, make_response
 
+import BaiDuVoice
 import WeChatGPT
 import settings
 from RedisUtil import RedisTool
@@ -73,7 +74,7 @@ def getHistoryMsg(FromUserName):
                 else:
                     resultMsg += "助手: " + msg["content"].replace("\n\n", "\n") + "\n------------------- \n\n"
         else:
-            resultMsg = "未查询到历史对话记录（"+hisTime+"）"
+            resultMsg = "未查询到历史对话记录（" + hisTime + "）"
 
         print(f"用户{FromUserName}的历史会话如下：\n{resultMsg}")
         return resultMsg
@@ -105,6 +106,26 @@ def intercept_byte_length(text):
     return result
 
 
+def getLastAnswer(FromUserName):
+    """
+    获取上一条助手回复的消息
+    :param FromUserName: 用户 id
+    :return: 若助手回复了，则返回 content ，否则返回 None
+    """
+    outputContent = []
+    sessionMsg = WeChatGPT.dealUserSession(FromUserName, False)
+    if sessionMsg:
+        if len(sessionMsg) > 0:
+            # 取最后一套，判断是不是 assistant 消息，如果是，说明回复了，如果不是，说明尚未回复
+            outputContent = [sessionMsg[-1]]
+
+    # 判断是否已经回复，如果已经回复，取最后一条 assistant
+    if len(outputContent) > 0 and outputContent[0]["role"] == WeChatGPT.ROLE_ASSISTANT:
+        return outputContent[0]["content"].replace('\n\n', '\n')
+    else:
+        return None
+
+
 def chatRobot():
     # 解析微信消息
     xmlData = ET.fromstring(request.stream.read())
@@ -113,39 +134,65 @@ def chatRobot():
     ToUserName = xmlData.find('ToUserName').text
     FromUserName = xmlData.find('FromUserName').text
     CreateTime = xmlData.find('CreateTime').text
+    content = None
+
+    start_time = time.time()
+    print(f"用户{FromUserName}请求开始时间=={start_time}, msg_type={msg_type}", flush=True)
+
+    if msg_type == 'voice' and settings.Config.VoiceSwitch:
+        # 语音消息，先将语音转换为文字后，再调用文本流程
+        try:
+            mediaId = xmlData.find('MediaId').text
+            # 需要开启微信接收语音识别结果【公众号-设置与开发-接口权限处开启接收消息-接收语音识别结果】
+            content = xmlData.find('Recognition').text
+            print(f"用户{FromUserName}输入了语音消息，语音MediaId为{mediaId}, 语音结果为：{content}")
+            # # 通过临时素材接口获取语音 url https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Get_temporary_materials.html
+            # url = f"https://api.weixin.qq.com/cgi-bin/media/get?access_token={settings.Config.weToken}&media_id={mediaId}"
+            # response = requests.get(url)
+            # voice_url = response.url
+            # print(f"用户{FromUserName}的语音消息 voice_url 为：{voice_url}")
+            # response = requests.get(voice_url)
+            # # 将语音生成 voice.amr 文件存入本地
+            # filepath = "voice/" + FromUserName + "_voice.amr"
+            # with open(filepath, 'wb') as f:
+            #     f.write(response.content)
+            #
+            # content = BaiDuVoice.getContent(filepath)
+            msg_type = 'text'
+
+            print(f"用户{FromUserName}的语音转文字成功：{content}")
+        except Exception as e:
+            print(f"解析语音失败, {e}")
+            return generate_response_xml(FromUserName, ToUserName,
+                                         '语音提问（中国-普通话）功能升级维护中...\n\n请先使用文本消息提问，感谢理解！')
 
     if msg_type == 'text':
-        content = xmlData.find('Content').text
-        msgID = request.args.get("MsgId", "")
+        if content is None:
+            content = xmlData.find('Content').text
         print("=======================================================")
-        print(f"用户请求信息：ToUserName={ToUserName},FromUserName={FromUserName},CreateTime={CreateTime}, Content={content}, MSGID={msgID}",
-                flush=True)
+        print(
+            f"用户请求信息：ToUserName={ToUserName},FromUserName={FromUserName},CreateTime={CreateTime}, Content={content}",
+            flush=True)
+        print("=======================================================")
 
-        start_time = time.time()
-        print("请求开始时间=", start_time)
         if content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
-            outputContent = []
-            sessionMsg = WeChatGPT.dealUserSession(FromUserName, False)
-            if sessionMsg:
-                if len(sessionMsg) > 0:
-                    # 取最后一套，判断是不是 assistant 消息，如果是，说明回复了，如果不是，说明尚未回复
-                    outputContent = [sessionMsg[-1]]
+            # 睡 3s 再回复，期间加上前面重试的14s 一共 17s 也差不多了。
+            time.sleep(3)
 
+            lastContent = getLastAnswer(FromUserName)
             # 判断是否已经回复，如果已经回复，取最后一条 assistant
-            if len(outputContent) > 0 and outputContent[0]["role"] == WeChatGPT.ROLE_ASSISTANT:
-                return generate_response_xml(FromUserName, ToUserName,
-                                             outputContent[0]["content"].replace('\n\n', '\n'))
+            if lastContent:
+                return generate_response_xml(FromUserName, ToUserName,lastContent)
             else:
-                print(
-                    f"GPT尚未解析完成，请稍后回复【继续】以获取最新结果!， FromUserName={FromUserName}, 当前结果为：{outputContent}")
                 return generate_response_xml(FromUserName, ToUserName,
                                              "GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n 哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n!!!强烈建议!!!回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！")
         elif content == '历史对话' or content == '历史消息' or content == '历史记录':
             print(f'用户{FromUserName}输入了{content}，已进入获取历史对话功能！')
             msg = getHistoryMsg(FromUserName)
             if len(msg.encode("utf-8")) > settings.Config.interceptionLength:
-                msg = intercept_byte_length(msg) + '\n\n根据微信官方文档，文本消息的内容最多不超过 2048 个字节（一般一个英文字符占用1个字节，一个中文字符占用2-4个字节）, 所以只返回最新记录的部分文字'
+                msg = intercept_byte_length(
+                    msg) + '\n\n根据微信官方文档，文本消息的内容最多不超过 2048 个字节（一般一个英文字符占用1个字节，一个中文字符占用2-4个字节）, 所以只返回最新记录的部分文字'
             return generate_response_xml(FromUserName, ToUserName, msg)
         elif content == '功能说明' or content == '使用说明':
             print(f'用户{FromUserName}输入了{content}，已进入获取功能说明功能！')
@@ -170,9 +217,21 @@ def chatRobot():
 
         if (start_time - float(CreateTime)) > 5:
             # 微信的重试请求中，参数不变，所以可以用当前请求 - CreateTime来计算是不是超时重试场景
-            # 字段逻辑是由 微信重试触发返给客户端的，并非客户端主动请求响应的
-            return generate_response_xml(FromUserName, ToUserName,
-                                         "GPT已开始处理，请稍等片刻后回复 「继续」 查看回复!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n!!!强烈建议!!!回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！")
+            # 字段逻辑是由 微信重试触发返给客户端的，并非客户端主动请求响应的（5s 重试一次，第三次的时候若还没通则相应给客户端）
+            if 10 < (start_time - float(CreateTime)) < 15:
+                # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回(最后等 4s ，相当于用户共等了 14 秒)
+                time.sleep(4)
+                lastContent = getLastAnswer(FromUserName)
+                if lastContent is None:
+                    print("请求超时，耗时：", (time.time() - float(CreateTime)))
+                    lastContent = "GPT已开始处理，请稍等片刻后回复 「继续」 查看回复!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+                return generate_response_xml(FromUserName, ToUserName, lastContent)
+            else:
+                # 微信第二次请求, 因为没有客服接口，为了尽量提升用户体验，咱们等到微信第三次请求再决定是否让客户回复继续获取结果
+                print("微信第二次请求进来了，睡 6s，强制超时进行第三次请求")
+                time.sleep(6)
+                # 虽然已经超时了，但是也要响应一下，以免后台异常
+                return generate_response_xml(FromUserName, ToUserName, 'success')
         else:
             print(f"用户{FromUserName}开始请求 OpenAI,content={content}")
             output_content = weChatGpt(content, FromUserName)
@@ -182,12 +241,14 @@ def chatRobot():
                 response = generate_response_xml(FromUserName, ToUserName, output_content)
                 return response
             else:
+                # 虽然已经超时了，但是也要响应一下，以免后台异常
                 # TODO: 如果是企业主体的公众号，这里应该调用客服消息接口主动推送消息给客户
                 print('！！！！！！！！GPT 解析完成！！！！！！！！！')
                 print('公众号端回复"继续"即可获取最新结果! 当前结果为：', output_content)
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     else:
-        return generate_response_xml(FromUserName, ToUserName, '对不起，目前仅支持文本消息，可以试试在对话框输入文字来向我提问！')
+        return generate_response_xml(FromUserName, ToUserName,
+                                     '对不起，目前仅支持文本消息，可以试试在对话框输入文字来向我提问！')
 
 
 def generate_response_xml(FromUserName, ToUserName, output_content):
@@ -213,12 +274,11 @@ def generate_response_xml(FromUserName, ToUserName, output_content):
     return response
 
 
-"""
-计算方法耗时
-"""
-
-
 def get_time(f):
+    """
+    计算方法耗时
+    """
+
     def inner(*arg, **kwarg):
         s_time = time.time()
         res = f(*arg, **kwarg)
