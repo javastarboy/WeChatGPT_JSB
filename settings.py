@@ -10,6 +10,13 @@ class Config(object):
     # 历史对话返回字符长度
     interceptionLength = 1800
 
+    # 语音识别开关
+    VoiceSwitch = True
+    # 百度语音识别：https://console.bce.baidu.com/ai/?_=1682589061589#/ai/speech/app/list
+    BaiDU_APP_ID = 'xxxx'
+    BaiDU_API_KEY = 'xxxx'
+    BaiDU_SECRET_KEY = 'xxxx'
+
     # redis
     host = 'xxxxxxxxxxxxx'
     port = xxxx
