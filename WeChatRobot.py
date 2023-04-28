@@ -171,28 +171,31 @@ def chatRobot():
             content = xmlData.find('Content').text
         print("=======================================================")
         print(
-            f"用户请求信息：ToUserName={ToUserName},FromUserName={FromUserName},CreateTime={CreateTime}, Content={content}",
-            flush=True)
+                f"用户请求信息：ToUserName={ToUserName},FromUserName={FromUserName},CreateTime={CreateTime}, Content={content}",
+                flush=True)
         print("=======================================================")
 
         if content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
             # 睡 3s 再回复，期间加上前面重试的14s 一共 17s 也差不多了。
-            time.sleep(3)
 
             lastContent = getLastAnswer(FromUserName)
             # 判断是否已经回复，如果已经回复，取最后一条 assistant
-            if lastContent:
-                return generate_response_xml(FromUserName, ToUserName,lastContent)
-            else:
-                return generate_response_xml(FromUserName, ToUserName,
-                                             "GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n 哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n!!!强烈建议!!!回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！")
+            if lastContent is None:
+                # 如果还没返回结果，睡 3 秒再查一次，以免影响正常的继续查看
+                time.sleep(3)
+                lastContent = getLastAnswer(FromUserName)
+                if lastContent is None:
+                    lastContent = "GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n 哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n!!!强烈建议!!!回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+
+            return generate_response_xml(FromUserName, ToUserName, lastContent)
+
         elif content == '历史对话' or content == '历史消息' or content == '历史记录':
             print(f'用户{FromUserName}输入了{content}，已进入获取历史对话功能！')
             msg = getHistoryMsg(FromUserName)
             if len(msg.encode("utf-8")) > settings.Config.interceptionLength:
                 msg = intercept_byte_length(
-                    msg) + '\n\n根据微信官方文档，文本消息的内容最多不超过 2048 个字节（一般一个英文字符占用1个字节，一个中文字符占用2-4个字节）, 所以只返回最新记录的部分文字'
+                        msg) + '\n\n根据微信官方文档，文本消息的内容最多不超过 2048 个字节（一般一个英文字符占用1个字节，一个中文字符占用2-4个字节）, 所以只返回最新记录的部分文字'
             return generate_response_xml(FromUserName, ToUserName, msg)
         elif content == '功能说明' or content == '使用说明':
             print(f'用户{FromUserName}输入了{content}，已进入获取功能说明功能！')
@@ -200,11 +203,11 @@ def chatRobot():
             msg += " 1、回复「继续」查阅 GPT 的最后一次回答（并不是让gpt继续写，千万别混淆） \n\n"
             msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
             msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内如果无对话，将为您清空会话内容，保证您的隐私）\n\n"
+            msg += " 4、支持输入语音消息（仅支持中国普通话，时间不要太长）\n\n"
             msg += "注意事项\n\n"
-            msg += " 1、经常出现「请稍后回复『继续』以获取最新结果!」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。而我这里是个人无偿贡献给大家使用，经费有限、且无客服消息接口权限，所以只能让大家等待。手动回复「继续」获取结果\n\n"
-            msg += " 2、每次回复「继续写」后，下一次一定要回复「继续」或查看历史对话才能拿到继续写的结果，否则你将陷入死循环怪圈。\n\n"
-            msg += " 3、回复「历史对话」，可以查看您的所有对话记录，但仅在一小时内有效，如果一小时内无任何对话活动，我将为您清空会话记录，保证您的隐私安全。另一方面也是我个人经费有限，无法支撑所有人的数据。\n\n"
-            msg += " 4、我会定期在公众号文章中分享一些圈内资讯或技术实践等，感兴趣可以关注一下\n\n"
+            msg += " 1、若出现「请稍后回复『继续』以获取最新结果!」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。且无客服消息接口权限，所以大家见谅~\n\n"
+            msg += " 2、回复「历史对话」，可以查看您的所有对话记录，但仅在一小时内有效，如果一小时内无任何对话活动，我将为您清空会话记录，保证您的隐私安全。另一方面也是我个人经费有限，无法支撑所有人的数据。\n\n"
+            msg += " 3、我会定期在公众号文章中分享一些圈内资讯或技术实践等，感兴趣可以关注一下\n\n"
             msg += "另外，哥们完全免费为大家提供便利，但是也投入了上千元，而且每个月都有服务器等各项费用产生（对个人来说，压力蛮大的），如果您觉得好用，可以在公众号文章中给点打赏（已开启打赏功能），这会给我带来更大的动力坚持做下去，最后，再次感谢您的理解与支持！"
 
             msg += "\n\n如果您也想一起研究 ChatGPT 或给出优化建议可以与我联系，微信号同名：javastarboy"
