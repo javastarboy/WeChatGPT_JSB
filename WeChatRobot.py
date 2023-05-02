@@ -18,12 +18,12 @@ weToken = settings.Config.weToken
 robot = werobot.WeRoBot(token=weToken)
 hasRequest = None
 
-"""
-    微信公众号验证 token
-"""
-
 
 def checkToken():
+    """
+    微信公众号验证 token
+    :return:
+    """
     signature = request.args.get("signature", "")
     timestamp = request.args.get("timestamp", "")
     nonce = request.args.get("nonce", "")
@@ -45,11 +45,6 @@ def checkToken():
     else:
         print("GET error input msg")
         return "error-return\r\n"
-
-
-"""
-    微信公众号用户消息对话
-"""
 
 
 def getHistoryMsg(FromUserName):
@@ -337,7 +332,7 @@ def validUpMsgHasRtn(FromUserName):
 @get_time
 def weChatGpt(messages, FromUserName):
     """
-      与 ChatGPT 交互
+    与 ChatGPT 交互
     :param messages: 用户发送的消息
     :param FromUserName: 用户 id
     :return: gpt 助手消息
@@ -364,12 +359,12 @@ def checkIsStop(FromUserName, ToUserName, content):
         return None
 
 
-"""
-    获取微信用户信息
-"""
-
-
 def getUserInfo(openId):
+    """
+    获取微信用户信息
+    :param openId: 微信 openid
+    :return:
+    """
     APP_ID = 'wxc32a24c2ebbc8f16'
     APP_SECRET = 'c23af7032f16e2dda7d7469e760a37ba'
 
