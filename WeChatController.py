@@ -15,6 +15,7 @@ hasRequest = None
 def chatgpt():
     # 验证 token
     if request.method == 'GET':
+        print("微信 token 验证")
         return WeChatRobot.checkToken()
     else:
         return WeChatRobot.chatRobot()

@@ -7,7 +7,6 @@ import requests
 import werobot
 from flask import Flask, request, make_response
 
-import BaiDuVoice
 import WeChatGPT
 import settings
 from RedisUtil import RedisTool
