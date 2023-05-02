@@ -3,7 +3,6 @@ from flask import Flask, request
 import WeChatRobot
 
 app = Flask(__name__)
-weToken = 'javastarboy'
 
 # token是微信公众号用来指定接入当前云服务器的服务的凭证，代表是自己人接入的，等一下就有什么用了
 # robot = werobot.WeRoBot(token=weToken)
