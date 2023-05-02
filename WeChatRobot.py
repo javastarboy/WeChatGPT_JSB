@@ -59,7 +59,7 @@ def getHistoryMsg(FromUserName):
     :return:
     """
     hisTime = "仅支持查看 " + str(settings.Config.clearSessionTime / 60) + " 分钟内的对话记录"
-    redis_tool = RedisTool(True).get_client()
+    redis_tool = RedisTool().get_client()
     try:
         weChatToken = "WeChatGPT_" + FromUserName
 
@@ -299,7 +299,7 @@ def validUpMsgHasRtn(FromUserName):
     :param messages: 问题消息
     :return: 如果返回有值代表尚未回答完毕，返回值为上次提问的问题； 如果返回为 None, 则代表已经返回结果，继续执行
     """
-    redis_tool = RedisTool(True).get_client()
+    redis_tool = RedisTool().get_client()
     try:
         weChatToken = "WeChatGPT_" + FromUserName
 

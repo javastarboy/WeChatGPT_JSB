@@ -22,6 +22,8 @@ class Config(object):
     port = xxxx
     password = 'xxxxxxxxxxxxx'
     db = 0
+    # cluster、sentinel、single
+    model = "cluster"
     startup_nodes = [
         {'host': 'xxxxxxxxxxxxx', 'port': 26379},
         {'host': 'xxxxxxxxxxxxx', 'port': 26380},

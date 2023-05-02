@@ -108,7 +108,7 @@ def dealUserSession(FromUserName, clearType):
     :return:
     """
 
-    redis_tool = RedisTool(True).get_client()
+    redis_tool = RedisTool().get_client()
     try:
         weChatToken = "WeChatGPT_" + FromUserName
 
@@ -142,7 +142,7 @@ def dealMsg(role, msg, msgRole, FromUserName):
     """
     weChatToken = "WeChatGPT_" + FromUserName
     messages = dealUserSession(FromUserName, False)
-    redis_tool = RedisTool(True).get_client()
+    redis_tool = RedisTool().get_client()
     try:
         if messages:
             messages.append({"role": role, "content": msg})
@@ -150,7 +150,7 @@ def dealMsg(role, msg, msgRole, FromUserName):
             # 首次会话
             messages = [{"role": role, "content": msg}]
 
-        redis_tool = RedisTool(True).get_client()
+        redis_tool = RedisTool().get_client()
         # 默认一小时，每次更新数据都刷，如果一小时内都没有交互，默认删除 session
         redis_tool.setex(weChatToken, settings.Config.clearSessionTime, json.dumps(messages))
     except Exception as e:

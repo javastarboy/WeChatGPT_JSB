@@ -15,10 +15,10 @@ app = Flask(__name__)
 
 
 class RedisTool:
-    def __init__(self, cluster=False, sentinel=False):
+    def __init__(self):
         """
             调用方式：
-            1、初始化 RedisTool： redis_tool = RedisTool(True).get_client()
+            1、初始化 RedisTool： redis_tool = RedisTool().get_client()
             2、删除：redis_tool.delete(key)
             3、String 类型
                 redis_tool.set(key, value)
@@ -45,12 +45,13 @@ class RedisTool:
             port = settings.Config.port
             password = settings.Config.password
             db = settings.Config.db
+            model = settings.Config.model
             startup_nodes = settings.Config.startup_nodes
             sentinel_list = settings.Config.sentinel_list
             # print(f"host={host},port={port},db={db}, startup_nodes={startup_nodes}")
 
             # 第二步:初始化 client
-            if cluster:
+            if model == 'cluster':
                 # 集群
                 """
                     写入值，获取值
@@ -60,7 +61,7 @@ class RedisTool:
                 # client = StrictRedisCluster(startup_nodes=startup_nodes, decode_response=True, password=password,max_connection=300)
                 self.client = RedisCluster(startup_nodes=startup_nodes, decode_responses=True, password=password)
                 print("====================redis 集群登录成功====================")
-            elif sentinel:
+            elif model == 'sentinel':
                 """
                     # 使用master进行写的操作，使用slave进行读的操作
                     master.hset("key_name", "filed", "value")
