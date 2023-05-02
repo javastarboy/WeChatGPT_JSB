@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 
 class RedisTool:
+    # def __init__(self, cluster=False, sentinel=False):
     def __init__(self):
         """
             调用方式：
