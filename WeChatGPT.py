@@ -49,6 +49,7 @@ def clearMsg(FromUserName):
 
 
 def completion(prompt, FromUserName):
+    start_time = time.time()
     """
         API：https://api.openai.com/v1/chat/completions
         官方文档：https://platform.openai.com/docs/api-reference/chat
@@ -65,11 +66,15 @@ def completion(prompt, FromUserName):
     }
     # 发送 HTTP POST 请求
     response = requests.post(url, headers=headers, data=json.dumps(field))
-    print(f"{time.time()} promot={prompt}", flush=True)
-    print(f"{time.time()} GPT response={response}", flush=True)
+    print(f"=================》ChatGPT 实时交互完成，耗时 {time.time() - start_time} 秒。 返回信息为：{response.json()}", flush=True)
 
     # 解析响应结果
-    resultMsg = response.json()["choices"][0]["message"]["content"].strip()
+    if 'error' in response.json():
+        error = response.json()['error']
+        if 'code' in error and 'context_length_exceeded' == error['code']:
+            resultMsg = '该模型的最大上下文长度是4096个令牌，请减少信息的长度或重设角色 (输入：stop) 创建新会话！。\n\n【' + error['message'] + "】"
+    else:
+        resultMsg = response.json()["choices"][0]["message"]["content"].strip()
 
     dealMsg(ROLE_ASSISTANT, resultMsg, '2', FromUserName)
     return resultMsg
@@ -165,7 +170,7 @@ def dealMsg(role, msg, msgRole, FromUserName):
         count = num_tokens_from_messages(messages, MODEL)
         print(f"{count} {msgRole} prompt tokens counted")
         if count > 4096:
-            raise ValueError("请求上下文已超过 4096 令牌数，请重设角色创建新会话！")
+            raise ValueError("请求上下文已超过 4096 令牌数，请重设角色 (输入：stop) 创建新会话！")
 
         """
             如果列表长度大于 6，删除多余的数据，只保留第一条以及后4 或 5条数据（带上下文请求 gpt）

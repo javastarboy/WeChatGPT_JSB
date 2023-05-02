@@ -221,19 +221,34 @@ def chatRobot():
             # 微信的重试请求中，参数不变，所以可以用当前请求 - CreateTime来计算是不是超时重试场景
             # 字段逻辑是由 微信重试触发返给客户端的，并非客户端主动请求响应的（5s 重试一次，第三次的时候若还没通则相应给客户端）
             if 10 < (start_time - float(CreateTime)) < 15:
-                # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回(最后等 4s ，相当于用户共等了 14 秒)
-                time.sleep(4)
-                lastContent = getLastAnswer(FromUserName)
+                print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
+                # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
+                current_time = time.time()
+                while 10 <= (current_time - float(CreateTime)) < 15:
+                    lastContent = getLastAnswer(FromUserName)
+                    if lastContent:
+                        break
+                    time.sleep(1)
+                    current_time = time.time()
+
                 if lastContent is None:
                     print("请求超时，耗时：", (time.time() - float(CreateTime)))
                     lastContent = "GPT马上处理完，就差一丢丢了，请回复 「继续」 查看结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
             else:
-                # 微信第二次请求, 因为没有客服接口，为了尽量提升用户体验，咱们等到微信第三次请求再决定是否让客户回复继续获取结果
-                print("微信第二次请求进来了，睡 6s，强制超时进行第三次请求")
-                time.sleep(6)
-                # 虽然已经超时了，但是也要响应一下，以免后台异常
-                return generate_response_xml(FromUserName, ToUserName, 'success')
+                print("微信第二次请求进来了，开始循环 5s ，若超时则进入第三次请求")
+                current_time = time.time()
+                while 5 <= (current_time - float(CreateTime)) <= 10:
+                    lastContent = getLastAnswer(FromUserName)
+                    if lastContent:
+                        return generate_response_xml(FromUserName, ToUserName, lastContent)
+                    time.sleep(1)
+                    current_time = time.time()
+                else:
+                    # 虽然已经超时了，但是也要响应一下，以免后台异常
+                    time.sleep(1)
+                    return generate_response_xml(FromUserName, ToUserName, 'success')
         else:
             print(f"用户{FromUserName}开始请求 OpenAI,content={content}")
             output_content = weChatGpt(content, FromUserName)
@@ -331,7 +346,13 @@ def weChatGpt(messages, FromUserName):
     if noReq:
         return noReq
     else:
-        return WeChatGPT.completion(WeChatGPT.dealMsg(WeChatGPT.ROLE_USER, messages, '1', FromUserName), FromUserName)
+        try:
+            message = WeChatGPT.dealMsg(WeChatGPT.ROLE_USER, messages, '1', FromUserName)
+            return WeChatGPT.completion(message, FromUserName)
+        except Exception as e:
+            resultMsg = str(e)
+            WeChatGPT.dealMsg(WeChatGPT.ROLE_ASSISTANT, resultMsg, '2', FromUserName)
+            return resultMsg
 
 
 def checkIsStop(FromUserName, ToUserName, content):

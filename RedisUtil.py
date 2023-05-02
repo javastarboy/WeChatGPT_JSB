@@ -60,7 +60,7 @@ class RedisTool:
                 """
                 # client = StrictRedisCluster(startup_nodes=startup_nodes, decode_response=True, password=password,max_connection=300)
                 self.client = RedisCluster(startup_nodes=startup_nodes, decode_responses=True, password=password)
-                print("====================redis 集群登录成功====================")
+                print("====================redis 集群登录成功====================", flush=True)
             elif model == 'sentinel':
                 """
                     # 使用master进行写的操作，使用slave进行读的操作
@@ -71,7 +71,7 @@ class RedisTool:
                 mySentinel = redis.Sentinel(sentinel_list)
                 master = mySentinel.master_for("mymaster", db=0)
                 slave = mySentinel.slave_for("mymaster", db=0)
-                print("====================redis 哨兵登录成功====================")
+                print("====================redis 哨兵登录成功====================", flush=True)
             else:
                 # 单机
                 """
@@ -80,7 +80,7 @@ class RedisTool:
                     client.get("key_name")
                 """
                 self.client = redis.StrictRedis(host=host, port=port, db=0, decode_responses=True, password=password)
-                print("====================redis 单机登录成功====================")
+                print("====================redis 单机登录成功====================", flush=True)
         except Exception as e:
             print(f"Redis 初始化异常: {e}")
 
