@@ -125,6 +125,30 @@ def getLastAnswer(FromUserName):
         return None
 
 
+def getLastContentByLoop(firstTime, lastTime, CreateTime, FromUserName, failureMsg):
+    """
+    递归调用，因为没有客服消息接口权限，满足微信 5s 重试机制
+    :param firstTime: 循环开始时间
+    :param lastTime: 循环结束时间
+    :param CreateTime: 用户第一次请求时间
+    :param FromUserName: 用户 ID
+    :param failureMsg: 失败话术
+    :return:
+    """
+    current_time = time.time()
+    while firstTime <= (current_time - float(CreateTime)) <= lastTime:
+        lastContent = getLastAnswer(FromUserName)
+        if lastContent:
+            break
+        # 若gpt尚未返回结果，则睡一秒继续试，直到 5s 结束进入微信下一次的重试
+        time.sleep(1)
+        current_time = time.time()
+
+    if lastContent:
+        return lastContent
+    else:
+        return failureMsg
+
 def chatRobot():
     # 解析微信消息
     xmlData = ET.fromstring(request.stream.read())
@@ -176,19 +200,11 @@ def chatRobot():
 
         if content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
-            # 睡 3s 再回复，期间加上前面重试的14s 一共 17s 也差不多了。
-
-            lastContent = getLastAnswer(FromUserName)
-            # 判断是否已经回复，如果已经回复，取最后一条 assistant
-            if lastContent is None:
-                # 如果还没返回结果，睡 3 秒再查一次，以免影响正常的继续查看
-                time.sleep(3)
-                lastContent = getLastAnswer(FromUserName)
-                if lastContent is None:
-                    lastContent = "GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+            # 继续的时候，重试三秒
+            failureMsg = 'GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！'
+            lastContent = getLastContentByLoop(0, 3, time.time(), FromUserName, failureMsg)
 
             return generate_response_xml(FromUserName, ToUserName, lastContent)
-
         elif content == '历史对话' or content == '历史消息' or content == '历史记录':
             print(f'用户{FromUserName}输入了{content}，已进入获取历史对话功能！')
             msg = getHistoryMsg(FromUserName)
@@ -223,32 +239,16 @@ def chatRobot():
             if 10 < (start_time - float(CreateTime)) < 15:
                 print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
                 # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
-                current_time = time.time()
-                while 10 <= (current_time - float(CreateTime)) < 15:
-                    lastContent = getLastAnswer(FromUserName)
-                    if lastContent:
-                        break
-                    time.sleep(1)
-                    current_time = time.time()
-
-                if lastContent is None:
-                    print("请求超时，耗时：", (time.time() - float(CreateTime)))
-                    lastContent = "GPT马上处理完，就差一丢丢了，请回复 「继续」 查看结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+                failureMsg = "GPT马上处理完，就差一丢丢了，请回复 「继续」 查看结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+                lastContent = getLastContentByLoop(10, 15, CreateTime, FromUserName, failureMsg)
 
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
             else:
                 print("微信第二次请求进来了，开始循环 5s ，若超时则进入第三次请求")
-                current_time = time.time()
-                while 5 <= (current_time - float(CreateTime)) <= 10:
-                    lastContent = getLastAnswer(FromUserName)
-                    if lastContent:
-                        return generate_response_xml(FromUserName, ToUserName, lastContent)
-                    time.sleep(1)
-                    current_time = time.time()
-                else:
-                    # 虽然已经超时了，但是也要响应一下，以免后台异常
-                    time.sleep(1)
-                    return generate_response_xml(FromUserName, ToUserName, 'success')
+                failureMsg = 'success'
+                lastContent = getLastContentByLoop(5, 11, CreateTime, FromUserName, failureMsg)
+
+            return generate_response_xml(FromUserName, ToUserName, lastContent)
         else:
             print(f"用户{FromUserName}开始请求 OpenAI,content={content}")
             output_content = weChatGpt(content, FromUserName)
