@@ -195,6 +195,9 @@ def chatRobot():
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
+        if content == 'AI源码':
+            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.javastarboy.cn/微信交流群.png"
+            return generate_response_xml(FromUserName, ToUserName, lastContent)
         elif content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
             # 继续的时候，重试三秒
