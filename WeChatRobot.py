@@ -8,6 +8,7 @@ import werobot
 from flask import Flask, request, make_response
 
 import WeChatGPT
+import get_billing_usage
 import settings
 from RedisUtil import RedisTool
 
@@ -192,6 +193,9 @@ def chatRobot():
                 f"用户请求信息：ToUserName={ToUserName},FromUserName={FromUserName},CreateTime={CreateTime}, Content={content}",
                 flush=True)
         print("=======================================================")
+        if content == '查询余额':
+            lastContent = get_billing_usage.getUsage(settings.Config.chat_gpt_key)
+            return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
