@@ -193,8 +193,20 @@ def chatRobot():
                 f"用户请求信息：ToUserName={ToUserName},FromUserName={FromUserName},CreateTime={CreateTime}, Content={content}",
                 flush=True)
         print("=======================================================")
-        if content == '查询余额':
-            lastContent = get_billing_usage.getUsage(settings.Config.chat_gpt_key)
+        if content.startswith("查询余额"):
+            if content.startswith("查询余额sys"):
+                # 查询微信公众号当前 key 的月
+                key = settings.Config.chat_gpt_key
+            else:
+                # 用户提供的 key
+                start = content.find("sk-")
+                if start > 0:
+                    key = content[start:]
+                else:
+                    lastContent = "对不起，您输入的指令有误。请按照「查询余额+api_key」的格式输入，例如【查询余额 sk-adsfasdf234123412341】\n注意：为保证您的隐私安全，查询结果仅保存 60 分钟，60 分钟后会自动清除 session 记录。"
+                    return generate_response_xml(FromUserName, ToUserName, lastContent)
+
+            lastContent = get_billing_usage.getUsage(FromUserName, key)
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
@@ -218,18 +230,21 @@ def chatRobot():
             return generate_response_xml(FromUserName, ToUserName, msg)
         elif content == '功能说明' or content == '使用说明':
             print(f'用户{FromUserName}输入了{content}，已进入获取功能说明功能！')
-            msg = "如果您来到了这里，说明你可能遇到了问题，这里给您充分解答如下：\n\n"
+            msg = "功能说明解答如下：\n\n"
+            msg += " 见面礼（学习手册）：https://ydyrb84oyc.feishu.cn/docx/CdGldIeJToqC2zxifLccDlAan7d \n\n"
             msg += " 1、回复「继续」查阅 GPT 的最后一次回答（并不是让gpt继续写，千万别混淆） \n\n"
             msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
             msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内如果无对话，将为您清空会话内容，保证您的隐私）\n\n"
-            msg += " 4、支持输入语音消息（仅支持中国普通话，时间不要太长）\n\n"
+            msg += " 4、支持输入语音消息（仅支持中国普通话）\n\n"
+            msg += " 5、按照「查询余额+api_key」的格式输入，例如【查询余额 sk-adsfasdf234123412341】即可查询您的 api_key 费用账单。\n我们承诺：您的账单数据仅缓存60分钟，到期自动清除，且不消耗您的token。\n\n"
+            msg += " 6、对标官网的网页版 ChatGPT 也上线了，免费提供给大家使用：https://www.javastarboy.cn/\n\n"
+            msg += " 7、视频号 javastarboy 也已推出视频版相关教程，陆续更新中\n\n"
             msg += "注意事项\n\n"
             msg += " 1、若出现「请稍后回复『继续』以获取最新结果!」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。且无客服消息接口权限，所以大家见谅~\n\n"
-            msg += " 2、回复「历史对话」，可以查看您的所有对话记录，但仅在一小时内有效，如果一小时内无任何对话活动，我将为您清空会话记录，保证您的隐私安全。另一方面也是我个人经费有限，无法支撑所有人的数据。\n\n"
-            msg += " 3、我会定期在公众号文章中分享一些圈内资讯或技术实践等，感兴趣可以关注一下\n\n"
-            msg += "另外，哥们完全免费为大家提供便利，但是也投入了上千元，而且每个月都有服务器等各项费用产生（对个人来说，压力蛮大的），如果您觉得好用，可以在公众号文章中给点打赏（已开启打赏功能），这会给我带来更大的动力坚持做下去，最后，再次感谢您的理解与支持！"
+            msg += " 2、我会定期在视频号、公众号文章中分享一些圈内资讯或技术实践等，感兴趣可以关注一下\n\n"
+            msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元（对个人来说，压力蛮大的），如果您觉得好用，可以在公众号文章中给点打赏。再次感谢您的理解与支持！"
 
-            msg += "\n\n如果您也想一起研究 ChatGPT 或给出优化建议可以与我联系，微信号同名：javastarboy"
+            msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码）：https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, msg)
         else:
             # 是否结束会话？
