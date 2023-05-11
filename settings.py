@@ -4,6 +4,8 @@ class Config(object):
     # javastarboy 的 api_key
     chat_gpt_key = 'xxxxxxxxxxxxx'
     # javastarboy 的腾讯云服务器函数服务，跳转硅谷区域代理
+    baseTxProxyUrl = "xxxxxxxxxxxxx"
+    # 也可以写完整的代理 url 
     txProxyUrl = "xxxxxxxxxxxxx"
     # session 自动失效时间，秒
     clearSessionTime = 3600
