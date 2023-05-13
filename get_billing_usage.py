@@ -78,7 +78,8 @@ def getUsage(FromUserName, apikey):
                 cost = 0
                 for item in line_items:
                     cost += item.get("cost")
-                recent += f"\t{date}\t{cost / 100} \n"
+                recent += f" {date}：{round(cost / 100, 4)} \n"
+
         else:
             try:
                 response_dict = json.loads(billing_response.text)
