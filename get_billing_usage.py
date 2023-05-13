@@ -1,6 +1,8 @@
 import datetime
 
 # 用您的 API 密钥替换以下字符串
+import json
+
 import requests
 import settings
 # 腾讯云函数服务代理
@@ -41,7 +43,20 @@ def getUsage(FromUserName, apikey):
             data = subscription_response.json()
             total = data.get("hard_limit_usd")
         else:
-            return subscription_response.text
+            try:
+                response_dict = json.loads(subscription_response.text)
+                code = response_dict["error"]["code"]
+                message = response_dict["error"]["message"]
+
+                if code == "invalid_api_key":
+                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
+                           f"\nOpenAI 官方返回错误信息如下:\n" + message + \
+                           f"\n\n 如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
+                else:
+                    return subscription_response.text
+            except Exception as e:
+                print("解析 usage 信息异常" + e)
+                return subscription_response.text
 
         # start_date设置为今天日期前99天
         start_date = (datetime.datetime.now() - datetime.timedelta(days=99)).strftime("%Y-%m-%d")
@@ -65,13 +80,25 @@ def getUsage(FromUserName, apikey):
                     cost += item.get("cost")
                 recent += f"\t{date}\t{cost / 100} \n"
         else:
-            return billing_response.text
+            try:
+                response_dict = json.loads(billing_response.text)
+                code = response_dict["error"]["code"]
+                message = response_dict["error"]["message"]
+
+                if code == "invalid_api_key":
+                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
+                           f"\nOpenAI 官方返回错误信息如下:\n" + message + \
+                           f"\n\n 如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
+                else:
+                    return billing_response.text
+            except Exception as e:
+                print("解析 usage 信息异常" + e)
+                return billing_response.text
 
         usage = f"\n总额:\t{total:.4f}  \n" \
                 f"已用:\t{total_usage:.4f}  \n" \
                 f"剩余:\t{total - total_usage:.4f}  \n" \
                 f"\n" + recent
-
         redis_tool.setex(redisKey, settings.Config.clearSessionTime, usage)
 
         return usage
