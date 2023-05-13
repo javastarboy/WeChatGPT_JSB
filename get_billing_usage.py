@@ -95,7 +95,7 @@ def getUsage(FromUserName, apikey):
                 print("解析 usage 信息异常" + e)
                 return billing_response.text
 
-        usage = f"\n总额:\t{total:.4f}  \n" \
+        usage = f"总额:\t{total:.4f}  \n" \
                 f"已用:\t{total_usage:.4f}  \n" \
                 f"剩余:\t{total - total_usage:.4f}  \n" \
                 f"\n" + recent
