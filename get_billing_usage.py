@@ -12,6 +12,7 @@ from WeChatGPT import dealUserSession
 baseTxProxyUrl = settings.Config.baseTxProxyUrl
 
 subscription_url = baseTxProxyUrl + "/v1/dashboard/billing/subscription"
+credit_grants_url = baseTxProxyUrl + "/v1/dashboard/billing/credit_grants"
 # subscription_url = "https://api.openai.com/v1/dashboard/billing/subscription"
 preKey = 'USAGE-'
 
@@ -19,6 +20,10 @@ preKey = 'USAGE-'
 def getUsage(FromUserName, apikey):
     """
     查询账户 token 费用使用情况，查询余额
+    订阅接口：https://api.openai.com/dashboard/billing/subscription
+    查询有效期: https://api.openai.com/dashboard/billing/credit_grants
+    根据日期查询账单详情：https://api.openai.com/v1/dashboard/billing/usage?start_date={start_date}&end_date={end_date}
+
     :param getLast: 获取上次余额结果，一般用于"继续"
     :param FromUserName: 用户 ID
     :param apikey: apikey
@@ -39,9 +44,16 @@ def getUsage(FromUserName, apikey):
             "check": "1"
         }
         subscription_response = requests.get(subscription_url, headers=headers)
+        # subscription_response = requests.get(credit_grants_url, headers=headers)
         if subscription_response.status_code == 200:
             data = subscription_response.json()
             total = data.get("hard_limit_usd")
+
+            # 以下是 credit_grants_url 方案，获取有效期
+            # total_usage = data["grants"]["data"][0]["used_amount"]
+            # total = data["grants"]["data"][0]["grant_amount"]
+            # effective_at = data["grants"]["data"][0]["effective_at"]
+            # expires_at = data["grants"]["data"][0]["expires_at"]
         else:
             try:
                 response_dict = json.loads(subscription_response.text)
@@ -49,7 +61,7 @@ def getUsage(FromUserName, apikey):
                 message = response_dict["error"]["message"]
 
                 if code == "invalid_api_key":
-                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
+                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效或输入指令格式有误，请检查您的key是否正确或是否多输入了换行\n " \
                            f"\nOpenAI 官方返回错误信息如下:\n" + message + \
                            f"\n\n 如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
                 else:
@@ -100,6 +112,10 @@ def getUsage(FromUserName, apikey):
                 f"已用:\t{total_usage:.4f}  \n" \
                 f"剩余:\t{total - total_usage:.4f}  \n" \
                 f"\n" + recent
+
+        # f"有止期起:\t{effective_at}  \n" \
+        # f"有效期止:\t{expires_at}  \n" \
+
         redis_tool.setex(redisKey, settings.Config.clearSessionTime, usage)
 
         return usage
