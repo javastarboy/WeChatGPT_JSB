@@ -1,11 +1,16 @@
+from datetime import time
+
 import requests
 import json
 
 # 请替换为你的 AppID 和 AppSecret
+from flask import make_response
+
+import settings
 from RedisUtil import RedisTool
 
-APP_ID = "wx4cf8aecc84bc796e"
-APP_SECRET = "3bf390e1942ac3f1815202f5b7a1a586"
+APP_ID = settings.Config.APP_ID
+APP_SECRET = settings.Config.APP_SECRET
 WE_ACCESS_TOKEN = "WE_ACCESS_TOKEN"
 
 # 获取 access_token
@@ -62,13 +67,26 @@ def delete_menu(access_token):
         print('请求删除自定义菜单失败:', response.status_code)
 
 
+def reply_text(to_user, from_user, content):
+    response = make_response(f"""
+        <xml>
+          <ToUserName><![CDATA[{to_user}]]></ToUserName>
+          <FromUserName><![CDATA[{from_user}]]></FromUserName>
+          <CreateTime>{int(time.time())}</CreateTime>
+          <MsgType><![CDATA[text]]></MsgType>
+          <Content><![CDATA[{content}]]></Content>
+        </xml>
+    """)
+    response.content_type = 'application/xml'
+    return response
+
 def get_menu_data():
     menu_data = {
         "button": [
             {
                 "type": "click",
                 "name": "功能说明",
-                "key": "V1001_TODAY_MUSIC"
+                "key": "reply_text"
             },
             {
                 "name": "见面礼",
