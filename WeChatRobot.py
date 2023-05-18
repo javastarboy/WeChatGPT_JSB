@@ -289,6 +289,10 @@ def chatRobot():
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':
             lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【javastarboy】"
+        if msg_event == 'CLICK':
+            event_key = xmlData.find('EventKey').text
+            if event_key == 'reply_text':
+                lastContent = '你点击了菜单，这是回复的文字。'
 
         return generate_response_xml(FromUserName, ToUserName, lastContent)
     else:

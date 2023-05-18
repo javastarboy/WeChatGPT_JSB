@@ -67,19 +67,6 @@ def delete_menu(access_token):
         print('请求删除自定义菜单失败:', response.status_code)
 
 
-def reply_text(to_user, from_user, content):
-    response = make_response(f"""
-        <xml>
-          <ToUserName><![CDATA[{to_user}]]></ToUserName>
-          <FromUserName><![CDATA[{from_user}]]></FromUserName>
-          <CreateTime>{int(time.time())}</CreateTime>
-          <MsgType><![CDATA[text]]></MsgType>
-          <Content><![CDATA[{content}]]></Content>
-        </xml>
-    """)
-    response.content_type = 'application/xml'
-    return response
-
 def get_menu_data():
     menu_data = {
         "button": [
