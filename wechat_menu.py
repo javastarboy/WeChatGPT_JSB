@@ -73,7 +73,7 @@ def get_menu_data():
             {
                 "type": "click",
                 "name": "功能说明",
-                "key": "reply_text"
+                "key": "reply_description"
             },
             {
                 "name": "见面礼",

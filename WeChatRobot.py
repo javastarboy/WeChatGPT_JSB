@@ -145,6 +145,28 @@ def getLastContentByLoop(firstTime, lastTime, CreateTime, FromUserName, failureM
     else:
         return failureMsg
 
+
+def getDescription():
+    """功能说明"""
+
+    msg = "【功能说明解答如下】\n\n"
+    msg += "【见面礼1】超详细的ChatGPT以及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/CdGldIeJToqC2zxifLccDlAan7d \n"
+    msg += "【见面礼2】对标官网的网页版ChatGPT免费提供给大家使用👇\nhttps://www.javastarboy.cn/ \n\n"
+    msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
+    msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据仅缓存60分钟，到期自动清除，且不消耗您的token。\n\n"
+    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，陆续更新中，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
+    msg += "【注意事项】\n"
+    msg += " 1、回复「继续」是查阅GPT的最后一次回答（并不是让GPT继续写，千万别混淆） \n\n"
+    msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
+    msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内若无对话，将为您清空会话内容，保证您的隐私）\n\n"
+    msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。且无客服消息接口权限，所以大家见谅~\n\n"
+    msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
+    msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元，如果您觉得好用，烦请帮忙推广一下，我的「微信号、视频号、公众号」同名都叫「javastarboy」谢谢！"
+
+    msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    return msg
+
+
 def chatRobot():
     # 解析微信消息
     xmlData = ET.fromstring(request.stream.read())
@@ -230,21 +252,7 @@ def chatRobot():
             return generate_response_xml(FromUserName, ToUserName, msg)
         elif content == '功能说明' or content == '使用说明':
             print(f'用户{FromUserName}输入了{content}，已进入获取功能说明功能！')
-            msg = "【功能说明解答如下】\n\n"
-            msg += "【见面礼1】超详细的ChatGPT以及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/CdGldIeJToqC2zxifLccDlAan7d \n"
-            msg += "【见面礼2】对标官网的网页版ChatGPT免费提供给大家使用👇\nhttps://www.javastarboy.cn/ \n\n"
-            msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
-            msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据仅缓存60分钟，到期自动清除，且不消耗您的token。\n\n"
-            msg += " 3、视频号 javastarboy 也已推出视频版相关教程，陆续更新中，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
-            msg += "【注意事项】\n"
-            msg += " 1、回复「继续」是查阅GPT的最后一次回答（并不是让GPT继续写，千万别混淆） \n\n"
-            msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
-            msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内若无对话，将为您清空会话内容，保证您的隐私）\n\n"
-            msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。且无客服消息接口权限，所以大家见谅~\n\n"
-            msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
-            msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元，如果您觉得好用，烦请帮忙推广一下，我的「微信号、视频号、公众号」同名都叫「javastarboy」谢谢！"
-
-            msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+            msg = getDescription()
             return generate_response_xml(FromUserName, ToUserName, msg)
         else:
             # 是否结束会话？
@@ -291,8 +299,9 @@ def chatRobot():
             lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【javastarboy】"
         if msg_event == 'CLICK':
             event_key = xmlData.find('EventKey').text
-            if event_key == 'reply_text':
-                lastContent = '你点击了菜单，这是回复的文字。'
+            if event_key == 'reply_description':
+                # 菜单点击事件，与 wechat_menu.py 的 button-type-click-key 绑定
+                lastContent = getDescription()
 
         return generate_response_xml(FromUserName, ToUserName, lastContent)
     else:
