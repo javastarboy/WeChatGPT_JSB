@@ -282,6 +282,15 @@ def chatRobot():
                 print('！！！！！！！！GPT 解析完成！！！！！！！！！')
                 print('公众号端回复"继续"即可获取最新结果! 当前结果为：', output_content)
                 return generate_response_xml(FromUserName, ToUserName, 'success')
+    elif msg_type == 'event':
+        msg_event = xmlData.find('Event').text
+        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「功能说明」了解公众号使用技巧并获取见面礼！"
+        if msg_event == 'subscribe':
+            lastContent = "感谢关注，" + lastContent
+        if msg_event == 'unsubscribe':
+            lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【javastarboy】"
+
+        return generate_response_xml(FromUserName, ToUserName, lastContent)
     else:
         return generate_response_xml(FromUserName, ToUserName,
                                      '本公众号目前支持文本消息、语音消息（中国-普通话）向 GPT 提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「功能说明」了解公众号使用技巧并获取见面礼')
