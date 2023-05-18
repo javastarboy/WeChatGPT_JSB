@@ -1,6 +1,8 @@
 class Config(object):
-    # 微信公众号的 token
+    # 微信公众号的 token\APP_ID\APP_SECRET
     weToken = 'xxxxxxxxxxxxx'
+    APP_ID = "xxxxxxxxxxxxx"
+    APP_SECRET = "xxxxxxxxxxxxx"
     # javastarboy 的 api_key
     chat_gpt_key = 'xxxxxxxxxxxxx'
     # javastarboy 的腾讯云服务器函数服务，跳转硅谷区域代理
