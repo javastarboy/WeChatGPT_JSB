@@ -1,4 +1,5 @@
 import json
+import random
 import time
 
 import openai
@@ -9,7 +10,7 @@ import tiktoken
 import settings
 from RedisUtil import RedisTool
 
-chat_gpt_key = settings.Config.chat_gpt_key
+chat_gpt_key = random.choice(settings.Config.chat_gpt_key.split(','))
 # javastarboy 的腾讯云服务器函数服务，跳转硅谷区域代理
 url = settings.Config.txProxyUrl
 # 将 Key 传入 openai
