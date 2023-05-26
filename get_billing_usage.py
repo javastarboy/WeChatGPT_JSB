@@ -1,13 +1,13 @@
 import datetime
-
 # 用您的 API 密钥替换以下字符串
 import json
+import random
 
 import requests
+
 import settings
 # 腾讯云函数服务代理
 from RedisUtil import RedisTool
-from WeChatGPT import dealUserSession
 
 baseTxProxyUrl = settings.Config.baseTxProxyUrl
 
@@ -126,4 +126,4 @@ def getUsage(FromUserName, apikey):
 
 
 # 测试一下
-print(getUsage("userId", settings.Config.chat_gpt_key))
+print(getUsage("userId", random.choice(settings.Config.chat_gpt_key.split(','))))

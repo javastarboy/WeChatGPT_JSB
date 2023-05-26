@@ -1,5 +1,6 @@
 import hashlib
 import json
+import random
 import time
 import xml.etree.ElementTree as ET
 
@@ -218,7 +219,7 @@ def chatRobot():
         if content.startswith("查询余额"):
             if content.startswith("查询余额sys"):
                 # 查询微信公众号当前 key 的月
-                key = settings.Config.chat_gpt_key
+                key = random.choice(settings.Config.chat_gpt_key.split(','))
             else:
                 # 用户提供的 key
                 start = content.find("sk-")
@@ -232,6 +233,9 @@ def chatRobot():
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
+            return generate_response_xml(FromUserName, ToUserName, lastContent)
+        if content == 'GPT4密码':
+            lastContent = "密码已转移到星球社群的置顶连接中，星球介绍请阅读👇\n\n https://mp.weixin.qq.com/s/sAVnzvxKYgA4YWaToqSwSg \n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI源码' or content == '微信群二维码':
             lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
