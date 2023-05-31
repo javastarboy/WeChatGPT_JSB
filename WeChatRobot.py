@@ -155,13 +155,13 @@ def getDescription():
     msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.javastarboy.cn/ \n\n"
     msg += "【见面礼3】【618年中钜惠】加入社群即可免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg \n\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
-    msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据仅缓存60分钟，到期自动清除，且不消耗您的token。\n\n"
-    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，陆续更新中，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
+    msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据会自动清除，且不消耗您的token。\n\n"
+    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
     msg += "【注意事项】\n"
     msg += " 1、回复「继续」是查阅GPT的最后一次回答（并不是让GPT继续写，千万别混淆） \n\n"
     msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
     msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内若无对话，将为您清空会话内容，保证您的隐私）\n\n"
-    msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。且无客服消息接口权限，所以大家见谅~\n\n"
+    msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢见谅~\n\n"
     msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
     msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元，如果您觉得好用，烦请帮忙推广一下，我的「微信号、视频号、公众号」同名都叫「javastarboy」谢谢！"
 
@@ -271,7 +271,7 @@ def chatRobot():
             if 10 < (start_time - float(CreateTime)) < 15:
                 print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
                 # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
-                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入AI2.0实验室交流群。\n【强烈建议】回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼！\n\n【618活动钜惠】现在加入社群即可免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg"
+                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\n【618活动钜惠】加入即可\n✅免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg"
                 lastContent = getLastContentByLoop(10, 15, CreateTime, FromUserName, failureMsg)
 
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
