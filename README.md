@@ -74,9 +74,10 @@
 ![](pictures/微信公众号对接ChatGPT流程图.jpeg)
 
 ## 网页版 ChatGPT 开发
-对标官网的网页版 ChatGPT 也免费开放给大家使用了，网址 [https://www.javastarboy.cn/](https://www.javastarboy.cn/)
+对标官网的网页版 ChatGPT 也免费开放给大家使用了，网址 [https://www.jsbcp.cn/](https://www.jsbcp.cn/)
 
-微信版 GPT 与网页版 GPT 使用场景区别说明：[https://mp.weixin.qq.com/s/CV6Vwa6GzpkeGHBfChw1_A](https://mp.weixin.qq.com/s/CV6Vwa6GzpkeGHBfChw1_A)
+微信版 GPT 与网页版 GPT
+使用场景区别说明：[https://mp.weixin.qq.com/s/CV6Vwa6GzpkeGHBfChw1_A](https://mp.weixin.qq.com/s/CV6Vwa6GzpkeGHBfChw1_A)
 - 先看下效果（写于 2023 年 4 月 24 日）
 ![](pictures/网页版以及公众号 gpt 效果图.png)
 
@@ -85,7 +86,8 @@
 ![](pictures/专面向于技术人员优惠券-GitHub.png)
 
 # 🔥AI2.0实验室 | 交流学习微信群
-[点我扫描微信二维码即可加入](https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png)
+
+[点我扫描微信二维码即可加入](https://www.jsbcp.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png)
 
 # 赞助
 ***

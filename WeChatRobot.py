@@ -152,7 +152,7 @@ def getDescription():
 
     msg = "【功能说明解答如下】\n\n"
     msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/CdGldIeJToqC2zxifLccDlAan7d \n"
-    msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.javastarboy.cn/ \n\n"
+    msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp.cn/ \n\n"
     msg += "【见面礼3】【618年中钜惠】加入社群即可免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg \n\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
     msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据会自动清除，且不消耗您的token。\n\n"
@@ -165,7 +165,7 @@ def getDescription():
     msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
     msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元，如果您觉得好用，烦请帮忙推广一下，我的「微信号、视频号、公众号」同名都叫「javastarboy」谢谢！"
 
-    msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.jsbcp.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
     return msg
 
 
@@ -236,10 +236,10 @@ def chatRobot():
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'GPT4密码':
-            lastContent = "密码已转移到星球社群的置顶连接中，星球介绍请阅读👇\n\n https://mp.weixin.qq.com/s/sAVnzvxKYgA4YWaToqSwSg \n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/"
+            lastContent = "密码已转移到星球社群的置顶连接中，星球介绍请读👇\n https://mp.weixin.qq.com/s/sAVnzvxKYgA4YWaToqSwSg \n\n【618活动钜惠】加入即可\n✅免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg\n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI源码' or content == '微信群二维码':
-            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.jsbcp.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         elif content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
@@ -297,7 +297,7 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     elif msg_type == 'event':
         msg_event = xmlData.find('Event').text
-        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「功能说明」了解公众号使用技巧并获取见面礼！"
+        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n【618活动钜惠】加入即可\n✅免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg"
         if msg_event == 'subscribe':
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':

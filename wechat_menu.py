@@ -1,23 +1,22 @@
-from datetime import time
-
-import requests
 import json
 
-# 请替换为你的 AppID 和 AppSecret
-from flask import make_response
+import requests
 
 import settings
 from RedisUtil import RedisTool
+
+# 请替换为你的 AppID 和 AppSecret
 
 APP_ID = settings.Config.APP_ID
 APP_SECRET = settings.Config.APP_SECRET
 WE_ACCESS_TOKEN = "WE_ACCESS_TOKEN"
 
+
 # 获取 access_token
 def get_access_token(app_id, app_secret):
     redis_tool = RedisTool().get_client()
     try:
-        token =  redis_tool.get(WE_ACCESS_TOKEN)
+        token = redis_tool.get(WE_ACCESS_TOKEN)
         if token:
             return token
         else:
@@ -86,7 +85,7 @@ def get_menu_data():
                     {
                         "type": "view",
                         "name": "ChatGPT网页版",
-                        "url": "https://www.javastarboy.cn/"
+                        "url": "https://www.jsbcp.cn/"
                     },
                     # {
                     #     "type": "miniprogram",
