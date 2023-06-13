@@ -151,7 +151,7 @@ def getDescription():
     """功能说明"""
 
     msg = "【功能说明解答如下】\n\n"
-    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/CdGldIeJToqC2zxifLccDlAan7d \n"
+    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg \n\n"
     msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp.cn/ \n\n"
     msg += "【见面礼3】【618年中钜惠】加入社群即可免费获得120刀api_key👇\nhttps://mp.weixin.qq.com/s/1iSexJ6IdUiYO9YxGfNPKg \n\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
