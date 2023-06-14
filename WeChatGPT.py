@@ -16,7 +16,7 @@ url = settings.Config.txProxyUrl
 # 将 Key 传入 openai
 openai.api_key = chat_gpt_key
 # 模型
-MODEL = "gpt-3.5-turbo"
+MODEL = "gpt-3.5-turbo-0613"
 
 ROLE_USER = "user"
 ROLE_SYSTEM = "system"
