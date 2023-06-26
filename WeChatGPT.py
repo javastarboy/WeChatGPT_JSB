@@ -15,7 +15,7 @@ chat_gpt_key = random.choice(settings.Config.chat_gpt_key.split(','))
 url = settings.Config.txProxyUrl
 # 将 Key 传入 openai
 openai.api_key = chat_gpt_key
-# 模型
+# 模型 gpt-3.5-turbo-16k、gpt-3.5-turbo-0613
 MODEL = "gpt-3.5-turbo-0613"
 
 ROLE_USER = "user"
