@@ -235,8 +235,8 @@ def chatRobot():
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
-        if content == 'GPT4密码':
-            lastContent = "密码已转移到星球社群的置顶连接中，星球介绍请读👇\n https://mp.weixin.qq.com/s/7rEZNtEPSdtwySki_pvPDw \n\n【2023暑期钜惠】加入即可\n✅无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/\n\n也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+        if content == 'GPT4密码' or content == 'GPT4' or content == 'gpt4密码' or content == 'gpt4':
+            lastContent = "【2023暑期钜惠】加入即可✅无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\n密码每日更新在星球置顶连接中，星球介绍👇\n https://mp.weixin.qq.com/s/7rEZNtEPSdtwySki_pvPDw \n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/\n\n也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI源码' or content == '微信群二维码':
             lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
