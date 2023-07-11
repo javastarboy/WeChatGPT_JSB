@@ -153,7 +153,8 @@ def getDescription():
     msg = "【功能说明解答如下】\n\n"
     msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg \n\n"
     msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp.top/ \n\n"
-    msg += "【见面礼3】【2023暑期钜惠】加入社群即可无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png \n\n"
+    msg += "【见面礼3】若需开通 GPT-4 使用权限，请回复「GPT4」 \n\n"
+    msg += "-----------------\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
     msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据会自动清除，且不消耗您的token。\n\n"
     msg += " 3、视频号 javastarboy 也已推出视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
@@ -163,9 +164,7 @@ def getDescription():
     msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内若无对话，将为您清空会话内容，保证您的隐私）\n\n"
     msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢见谅~\n\n"
     msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
-    msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元，如果您觉得好用，烦请帮忙推广一下，我的「微信号、视频号、公众号」同名都叫「javastarboy」谢谢！"
-
-    msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    msg += "\n\n欢迎加入🔥AI2.0实验室交流微信群：https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
     return msg
 
 
