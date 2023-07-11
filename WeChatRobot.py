@@ -151,20 +151,21 @@ def getDescription():
     """功能说明"""
 
     msg = "【功能说明解答如下】\n\n"
-    msg += "【见面礼1】超详细的ChatGPT以及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/CdGldIeJToqC2zxifLccDlAan7d \n"
-    msg += "【见面礼2】对标官网的网页版ChatGPT免费提供给大家使用👇\nhttps://www.javastarboy.cn/ \n\n"
+    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg \n\n"
+    msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp.top/ \n\n"
+    msg += "【见面礼3】【2023暑期钜惠】加入社群即可无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png \n\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
-    msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据仅缓存60分钟，到期自动清除，且不消耗您的token。\n\n"
-    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，陆续更新中，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
+    msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据会自动清除，且不消耗您的token。\n\n"
+    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
     msg += "【注意事项】\n"
     msg += " 1、回复「继续」是查阅GPT的最后一次回答（并不是让GPT继续写，千万别混淆） \n\n"
     msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
     msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内若无对话，将为您清空会话内容，保证您的隐私）\n\n"
-    msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢很正常。且无客服消息接口权限，所以大家见谅~\n\n"
+    msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢见谅~\n\n"
     msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
     msg += "另外，哥们完全免费为大家提供便利，但也投入了上千元，如果您觉得好用，烦请帮忙推广一下，我的「微信号、视频号、公众号」同名都叫「javastarboy」谢谢！"
 
-    msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    msg += "\n\n感兴趣的欢迎加入🔥AI2.0实验室交流微信群（点击链接扫码加微信）：https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
     return msg
 
 
@@ -235,10 +236,10 @@ def chatRobot():
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'GPT4密码':
-            lastContent = "密码已转移到星球社群的置顶连接中，星球介绍请阅读👇\n\n https://mp.weixin.qq.com/s/sAVnzvxKYgA4YWaToqSwSg \n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/"
+            lastContent = "密码已转移到星球社群的置顶连接中，星球介绍请读👇\n https://mp.weixin.qq.com/s/7rEZNtEPSdtwySki_pvPDw \n\n【2023暑期钜惠】加入即可\n✅无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\nChatGPT4 Javastarboy网址：https://www.javastarboy.com.cn/\n\n也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI源码' or content == '微信群二维码':
-            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.javastarboy.cn/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         elif content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
@@ -254,7 +255,7 @@ def chatRobot():
                 msg = intercept_byte_length(
                         msg) + '\n\n根据微信官方文档，文本消息的内容最多不超过 2048 个字节（一般一个英文字符占用1个字节，一个中文字符占用2-4个字节）, 所以只返回最新记录的部分文字'
             return generate_response_xml(FromUserName, ToUserName, msg)
-        elif content == '功能说明' or content == '使用说明':
+        elif content == '功能说明' or content == '使用说明' or content == '见面礼':
             print(f'用户{FromUserName}输入了{content}，已进入获取功能说明功能！')
             msg = getDescription()
             return generate_response_xml(FromUserName, ToUserName, msg)
@@ -270,7 +271,7 @@ def chatRobot():
             if 10 < (start_time - float(CreateTime)) < 15:
                 print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
                 # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
-                failureMsg = "GPT马上处理完，就差一丢丢了，请回复 「继续」 查看结果!\n\n如果方便，麻烦帮忙关注下视频号（也叫 javastarboy），谢谢。\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），解锁新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！"
+                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\n【2023暑期钜惠】加入即可\n✅免费获得120刀api_key👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png"
                 lastContent = getLastContentByLoop(10, 15, CreateTime, FromUserName, failureMsg)
 
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
@@ -296,7 +297,7 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     elif msg_type == 'event':
         msg_event = xmlData.find('Event').text
-        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「功能说明」了解公众号使用技巧并获取见面礼！"
+        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n【2023暑期钜惠】加入即可\n✅无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png"
         if msg_event == 'subscribe':
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':
