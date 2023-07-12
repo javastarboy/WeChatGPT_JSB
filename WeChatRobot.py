@@ -234,6 +234,9 @@ def chatRobot():
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
+        if content == 'AI孙燕姿' or content == 'Ai孙燕姿' or content == 'ai孙燕姿':
+            lastContent = "链接: https://pan.baidu.com/s/1lRTjKJ9MyKK1hSkYXan9IA?pwd=8888 提取码: 8888 --来自百度网盘超级会员v5的分享"
+            return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'GPT4密码' or content == 'GPT4' or content == 'gpt4密码' or content == 'gpt4':
             lastContent = "▶ 【2023暑期钜惠】加入即可无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\n▶ 免费版 ChatGPT 网站升级版：https://www.jsbcp.top/\n  👉 GPT3.5模型：永久免费使用！ \n  👉 GPT4.0模型：考虑大家需求不同，支持按量付费（用多少买多少）\n  套餐介绍：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p\n\n▶ 也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
