@@ -47,7 +47,16 @@ def getUsage(FromUserName, apikey):
         # subscription_response = requests.get(credit_grants_url, headers=headers)
         if subscription_response.status_code == 200:
             data = subscription_response.json()
+            # 订阅总额度
             total = data.get("hard_limit_usd")
+            # 已使用额度
+            total_usage = data.get("soft_limit_usd")
+            # 每月可使用的API请求次数上限。
+            soft_limit = data.get("soft_limit")
+            # 每月可使用的API请求次数上限。
+            hard_limit = data.get("hard_limit")
+            # 订阅有效期截止时间
+            access_until = datetime.datetime.fromtimestamp(data.get("access_until"))
 
             # 以下是 credit_grants_url 方案，获取有效期
             # total_usage = data["grants"]["data"][0]["used_amount"]
@@ -68,53 +77,71 @@ def getUsage(FromUserName, apikey):
                     return subscription_response.text
             except Exception as e:
                 print("解析 usage 信息异常" + e)
-                return subscription_response.text
+                try:
+                    response_dict = json.loads(subscription_response.text)
+                    code = response_dict["error"]["code"]
+                    message = response_dict["error"]["message"]
 
-        # start_date设置为今天日期前99天
-        start_date = (datetime.datetime.now() - datetime.timedelta(days=99)).strftime("%Y-%m-%d")
-        # end_date设置为今天日期+1
-        end_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-        billing_url = f"{baseTxProxyUrl}/v1/dashboard/billing/usage?start_date={start_date}&end_date={end_date}"
-        # billing_url = f"https://api.openai.com/v1/dashboard/billing/usage?start_date={start_date}&end_date={end_date}"
-        billing_response = requests.get(billing_url, headers=headers)
-        if billing_response.status_code == 200:
-            data = billing_response.json()
-            total_usage = data.get("total_usage") / 100
-            daily_costs = data.get("daily_costs")
-            days = min(15, len(daily_costs))
-            recent = f"最近{days}天使用情况  \n"
-            for i in range(days):
-                cur = daily_costs[-i - 1]
-                date = datetime.datetime.fromtimestamp(cur.get("timestamp")).strftime("%Y-%m-%d")
-                line_items = cur.get("line_items")
-                cost = 0
-                for item in line_items:
-                    cost += item.get("cost")
-                recent += f" {date}：{round(cost / 100, 4)} \n"
+                    if code == "invalid_api_key":
+                        return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
+                               f"\nOpenAI 官方返回错误信息如下:\n" + message + \
+                               f"\n\n如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
+                    else:
+                        return subscription_response.text
+                except Exception as e:
+                    print("解析 usage 信息异常222" + e)
+                    return subscription_response.text
 
-        else:
-            try:
-                response_dict = json.loads(billing_response.text)
-                code = response_dict["error"]["code"]
-                message = response_dict["error"]["message"]
+        # # start_date设置为今天日期前99天
+        # start_date = (datetime.datetime.now() - datetime.timedelta(days=99)).strftime("%Y-%m-%d")
+        # # end_date设置为今天日期+1
+        # end_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        # billing_url = f"{baseTxProxyUrl}/v1/dashboard/billing/usage?start_date={start_date}&end_date={end_date}"
+        # # billing_url = f"https://api.openai.com/v1/dashboard/billing/usage?start_date={start_date}&end_date={end_date}"
+        # billing_response = requests.get(billing_url, headers=headers)
+        # if billing_response.status_code == 200:
+        #     data = billing_response.json()
+        #     total_usage = data.get("total_usage") / 100
+        #     daily_costs = data.get("daily_costs")
+        #     days = min(15, len(daily_costs))
+        #     recent = f"最近{days}天使用情况  \n"
+        #     for i in range(days):
+        #         cur = daily_costs[-i - 1]
+        #         date = datetime.datetime.fromtimestamp(cur.get("timestamp")).strftime("%Y-%m-%d")
+        #         line_items = cur.get("line_items")
+        #         cost = 0
+        #         for item in line_items:
+        #             cost += item.get("cost")
+        #         recent += f" {date}：{round(cost / 100, 4)} \n"
+        #
+        # else:
+        #     try:
+        #         response_dict = json.loads(billing_response.text)
+        #         code = response_dict["error"]["code"]
+        #         message = response_dict["error"]["message"]
+        #
+        #         if code == "invalid_api_key":
+        #             return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
+        #                    f"\nOpenAI 官方返回错误信息如下:\n" + message + \
+        #                    f"\n\n 如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
+        #         else:
+        #             return billing_response.text
+        #     except Exception as e:
+        #         print("解析 usage 信息异常" + e)
+        #         return billing_response.text
 
-                if code == "invalid_api_key":
-                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
-                           f"\nOpenAI 官方返回错误信息如下:\n" + message + \
-                           f"\n\n 如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
-                else:
-                    return billing_response.text
-            except Exception as e:
-                print("解析 usage 信息异常" + e)
-                return billing_response.text
+        # usage = f"总额:\t{total:.4f}  \n" \
+        #         f"已用:\t{total_usage:.4f}  \n" \
+        #         f"剩余:\t{total - total_usage:.4f}  \n" \
+        #         f"\n" + recent
 
-        usage = f"总额:\t{total:.4f}  \n" \
-                f"已用:\t{total_usage:.4f}  \n" \
-                f"剩余:\t{total - total_usage:.4f}  \n" \
-                f"\n" + recent
-
-        # f"有止期起:\t{effective_at}  \n" \
-        # f"有效期止:\t{expires_at}  \n" \
+        return f"\n总额:\t{total:.4f}$\n" \
+               f"已用:\t{total_usage:.4f}$\n" \
+               f"剩余:\t{total - total_usage:.4f}$\n\n" \
+               f"当月可请求API次数上限:\t{hard_limit} 次\n" \
+               f"当月已请求API次数:\t{soft_limit} 次\n" \
+               f"当月剩余可请求API次数:\t{hard_limit - soft_limit} 次\n" \
+               f"\n有效期至：" + str(access_until)
 
         redis_tool.setex(redisKey, settings.Config.clearSessionTime, usage)
 
