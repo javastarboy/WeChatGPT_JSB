@@ -51,12 +51,19 @@ def getUsage(FromUserName, apikey):
             total = data.get("hard_limit_usd")
             # 已使用额度
             total_usage = data.get("soft_limit_usd")
-            # 每月可使用的API请求次数上限。
-            soft_limit = data.get("soft_limit")
-            # 每月可使用的API请求次数上限。
-            hard_limit = data.get("hard_limit")
+            if data.get("soft_limit") != None:
+                # 每月可使用的API请求次数上限。
+                soft_limit = data.get("soft_limit")
+                # 每月可使用的API请求次数上限。
+                hard_limit = data.get("hard_limit")
+            else:
+                soft_limit = 0
+                hard_limit = 9999999
             # 订阅有效期截止时间
-            access_until = datetime.datetime.fromtimestamp(data.get("access_until"))
+            if data.get("access_until") != None:
+                access_until = datetime.datetime.fromtimestamp(data.get("access_until"))
+            else:
+                access_until = '9999-12-31'
 
             # 以下是 credit_grants_url 方案，获取有效期
             # total_usage = data["grants"]["data"][0]["used_amount"]
@@ -66,13 +73,22 @@ def getUsage(FromUserName, apikey):
         else:
             try:
                 response_dict = json.loads(subscription_response.text)
-                code = response_dict["error"]["code"]
+                if 'code' in response_dict["error"]:
+                    code = response_dict["error"]["code"]
+                else:
+                    # 企业转发接口的格式
+                    code = response_dict["error"]["type"]
+
                 message = response_dict["error"]["message"]
 
                 if code == "invalid_api_key":
-                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效或输入指令格式有误，请检查您的key是否正确或是否多输入了换行\n " \
+                    return f"对不起, 您输入的 key 在OpenAI 官网查询无效，请检查您的 key 是否正确\n " \
                            f"\nOpenAI 官方返回错误信息如下:\n" + message + \
-                           f"\n\n 如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
+                           f"\n\n如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
+
+                if code == "one_api_error":
+                    return f"对不起, 您的 key 已不可用，如有疑问或需体验 GPT-4，请加微信 「javastarboy」\n" \
+                           f"返回错误信息如为:" + message
                 else:
                     return subscription_response.text
             except Exception as e:
