@@ -9,7 +9,7 @@ import werobot
 from flask import Flask, request, make_response
 
 import WeChatGPT
-import get_billing_usage
+import get_billing_usage_transpond
 import settings
 from RedisUtil import RedisTool
 
@@ -229,7 +229,7 @@ def chatRobot():
                     lastContent = "对不起，您输入的指令有误。请按照「查询余额+api_key」的格式输入，例如【查询余额 sk-adsfasdf234123412341】\n注意：为保证您的隐私安全，查询结果仅保存 60 分钟，60 分钟后会自动清除 session 记录。"
                     return generate_response_xml(FromUserName, ToUserName, lastContent)
 
-            lastContent = get_billing_usage.getUsage(FromUserName, key)
+            lastContent = get_billing_usage_transpond.getUsage(FromUserName, key)
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'openai-proxy':
             lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
