@@ -67,13 +67,20 @@ def completion(prompt, FromUserName):
     }
     # 发送 HTTP POST 请求
     response = requests.post(url, headers=headers, data=json.dumps(field))
-    print(f"=================》ChatGPT 实时交互完成，耗时 {time.time() - start_time} 秒。 返回信息为：{response.json()}", flush=True)
+    print(f"=================》ChatGPT 实时交互完成，耗时 {time.time() - start_time} 秒。 返回信息为：{response.json()}",
+          flush=True)
+    count = 0
+    while response.status_code == 401 and count < 10:
+        count += 1
+        print(f"请求 GPT 失败，进入第 {count} 次循环...")
+        response = requests.post(url, headers=headers, data=json.dumps(field))
 
     # 解析响应结果
     if 'error' in response.json():
         error = response.json()['error']
         if 'code' in error and 'context_length_exceeded' == error['code']:
-            resultMsg = '该模型的最大上下文长度是4096个令牌，请减少信息的长度或重设角色 (输入：stop) 创建新会话！。\n\n【' + error['message'] + "】"
+            resultMsg = '该模型的最大上下文长度是4096个令牌，请减少信息的长度或重设角色 (输入：stop) 创建新会话！。\n\n【' + \
+                        error['message'] + "】"
     else:
         resultMsg = response.json()["choices"][0]["message"]["content"].strip()
 
