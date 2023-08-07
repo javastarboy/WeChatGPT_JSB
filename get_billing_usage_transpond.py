@@ -77,6 +77,6 @@ def getUsage(FromUserName, apikey):
            f"GPT4 可请求次数剩余约: {(total - total_usage) * 25:.0f} 次\n" \
            f"GPT3.5 可请求次数剩余约: {(total - total_usage) * 2000:.0f} 次\n\n" \
            f"有效期至：" + str(access_until) + "\n\n" \
-                                              f"▶ GPT4.0 转发API套餐介绍（低至 1.3 元每刀）🔗 https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p"
+           f"▶ GPT4.0 转发API套餐介绍（低至 1.3 元每刀）🔗 https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p"
 
 # print(getUsage(settings.Config.chat_gpt_key))
