@@ -5,7 +5,7 @@
 - 先给大家看下效果（大家也可以先关注公众号体验一下）
 - 支持文本、语音消息向 GPT 提问
 
-![](pictures/微信公众号效果图.png)
+![](pictures/微信公众号支持语音GPT4.jpeg)
 - 公众号二维码
 <div style="text-align:center">
     <img src="pictures/公众号二维码.jpg">
@@ -61,8 +61,9 @@
   > 注意：如果不启用是没效果的，同时自定义的菜单、自定义回复都将失效
 
 ## 功能清单
+
 - [x] 回复消息「功能说明」查看功能清单与使用说明并获取见面礼福利
-- [x] 支持文本、语音向 GPT 提问
+- [x] 支持文本、语音向 GPT3.5、GPT-4 双模型提问
 - [x] 回复消息「查询余额+你的api_key」可以查看你的账户余额情况
 - [x] 回复消息「继续」查看 ChatGPT 最近一次回答内容
 - [x] 回复消息「历史对话」记录查看
@@ -71,25 +72,42 @@
 - [ ] 客服消息接口对接，延迟消息自动回复给用户，彻底解决手动回复 「继续」获取结果
 
 ## 业务对接流程图
+
 ![](pictures/微信公众号对接ChatGPT流程图.jpeg)
 
-## 网页版 ChatGPT 开发
-对标官网的网页版 ChatGPT 也免费开放给大家使用了，网址 [https://www.jsbcp.top/](https://www.jsbcp.top/)
+## ChatGPT 网页版以及学习手册等福利
 
-微信版 GPT 与网页版 GPT
-使用场景区别说明：[https://mp.weixin.qq.com/s/CV6Vwa6GzpkeGHBfChw1_A](https://mp.weixin.qq.com/s/CV6Vwa6GzpkeGHBfChw1_A)
-- 先看下效果（写于 2023 年 4 月 24 日）
-![](pictures/网页版以及公众号 gpt 效果图.png)
+- 国内永久免费使用ChatGPT网站
+    - https://www.jsbcp.top
+    - 密码-群里更新：加微信「javastarboy」拉你进群
+
+- GPT4.0 转发API套餐介绍（可免费试用 3-6 次）
+    - https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p
+
+- 参数设定说明详见如下链接第三章节《模型等参数的使用说明》介绍
+    - https://ydyrb84oyc.feishu.cn/docx/Vnt9dJ5FzoBH3IxyRW2cNwmln3b
+
+- 免费学习材料福利导航——目录版
+    - https://ydyrb84oyc.feishu.cn/sheets/OfKvsq41MhRF5wt2kafcrR7lnVg
+
+- 免费学习材料福利导航——飞书版
+    - https://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg
+
+![](pictures/GPT-4 经典三连问.png)
 
 # 交流社群
+
 如果你觉得我的分享对比有帮助，也欢迎加入我们交流社群，每天都有很多关于 ChatGPT、人工智能 AI、Python、变现创业的相关分享。
-![](pictures/专面向于技术人员优惠券-GitHub.png)
+[点我查看社群介绍](https://mp.weixin.qq.com/s/7rEZNtEPSdtwySki_pvPDw)
+
+![](pictures/2023暑期钜惠.png)
 
 # 🔥AI2.0实验室 | 交流学习微信群
 
-[点我扫描微信二维码即可加入](https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png)
+![](pictures/微信交流群.png)
 
 # 赞助
+
 ***
 如果你觉得这个项目对你有帮助，并且情况允许的话，可以给我一点点支持，总之非常感谢支持～
 
