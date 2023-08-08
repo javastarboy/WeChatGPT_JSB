@@ -2,7 +2,6 @@ import json
 import random
 import time
 
-import openai
 import requests
 import tiktoken
 
@@ -13,10 +12,10 @@ from RedisUtil import RedisTool
 chat_gpt_key = random.choice(settings.Config.chat_gpt_key.split(','))
 # javastarboy 的腾讯云服务器函数服务，跳转硅谷区域代理
 url = settings.Config.txProxyUrl
-# 将 Key 传入 openai
-openai.api_key = chat_gpt_key
-# 模型 gpt-3.5-turbo-16k、gpt-3.5-turbo-0613
-MODEL = "gpt-3.5-turbo-0613"
+GPT4_Accounts = settings.Config.GPT4_Account
+# 模型 gpt-3.5-turbo-16k、gpt-3.5-turbo-0613、gpt-4、gpt-4-0613
+MODEL = "gpt-3.5-turbo"
+MODEL4 = "gpt-4-0613"
 
 ROLE_USER = "user"
 ROLE_SYSTEM = "system"
@@ -30,13 +29,6 @@ messages = [
     {"role": "assistant", "content": "Draft an email or other piece of writing."}
 ]
 """
-# 设置请求头
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer " + chat_gpt_key,
-    # 函数代理不想做鉴权，但又不想没校验，临时在头信息加了个校验
-    "check": "check"
-}
 
 
 def clearMsg(FromUserName):
@@ -44,36 +36,83 @@ def clearMsg(FromUserName):
     return dealUserSession(FromUserName, True)
 
 
-"""
-    调用 chatgpt 接口
-"""
+def check_GPT4_account(account):
+    """
+    判断当前用户是否开启 GPT-4 权限，若开启了，取他的 key 进行交互
+    :param account: 取 FromUserName 值
+    :return:
+    """
+    for userName, apiKey in GPT4_Accounts:
+        if userName == account:
+            return apiKey
+    return None
+
+
+def getHeader(apiKey):
+    # 设置请求头
+    if apiKey is not None:
+        return {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + apiKey,
+            # 函数代理不想做鉴权，但又不想没校验，临时在头信息加了个校验
+            "check": "check"
+        }
+    else:
+        return {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + chat_gpt_key,
+            # 函数代理不想做鉴权，但又不想没校验，临时在头信息加了个校验
+            "check": "check"
+        }
 
 
 def completion(prompt, FromUserName):
     start_time = time.time()
     """
+        调用 chatgpt 接口
         API：https://api.openai.com/v1/chat/completions
         官方文档：https://platform.openai.com/docs/api-reference/chat
         :param FromUserName: 用户 id
         :param prompt: 入参文本框
         :return: 助手回答结果
     """
+    model = MODEL
+    apiKey = check_GPT4_account(FromUserName)
+    if apiKey is not None:
+        model = MODEL4
+
+    # 设置请求头
+    headers = getHeader(apiKey)
     # 设置请求体
     field = {
-        "model": MODEL,
+        "model": model,
         "messages": prompt,
         "temperature": 0.0,
         "max_tokens": 500
     }
+
     # 发送 HTTP POST 请求
     response = requests.post(url, headers=headers, data=json.dumps(field))
-    print(f"=================》ChatGPT 实时交互完成，耗时 {time.time() - start_time} 秒。 返回信息为：{response.json()}", flush=True)
+
+    print(f"\n\n==================================================")
+    print(f"===》用户 {FromUserName} 使用 {model} 模型, apiKey = {apiKey}\n")
+    print(f"===》ChatGPT 实时交互完成，耗时 {time.time() - start_time} 秒\n")
+    print(f"===》请求头={headers}")
+    print(f"===》返回信息为：\n {response.json()}", flush=True)
+    print(f"==================================================\n\n")
+
+    count = 0
+    while response.status_code == 401 and count < 10:
+        count += 1
+        print(f"请求 GPT 失败，进入第 {count} 次循环...")
+        response = requests.post(url, headers=headers, data=json.dumps(field))
 
     # 解析响应结果
     if 'error' in response.json():
         error = response.json()['error']
         if 'code' in error and 'context_length_exceeded' == error['code']:
-            resultMsg = '该模型的最大上下文长度是4096个令牌，请减少信息的长度或重设角色 (输入：stop) 创建新会话！。\n\n【' + error['message'] + "】"
+            resultMsg = '该模型的最大上下文长度是4096个令牌，请减少信息的长度或重设角色 (输入：stop) 创建新会话！。\n\n【' + \
+                        error['message'] + "】"
     else:
         resultMsg = response.json()["choices"][0]["message"]["content"].strip()
 
