@@ -151,7 +151,7 @@ def getDescription():
     """功能说明"""
 
     msg = "【功能说明解答如下】\n\n"
-    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg \n\n"
+    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/wiki/SOpywcxjUikIS1k1LQZcTj0unJg \n\n"
     msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp.top/ \n\n"
     msg += "【见面礼3】若需开通 GPT-4 使用权限，请回复「GPT4」 \n"
     msg += "-----------------\n"
