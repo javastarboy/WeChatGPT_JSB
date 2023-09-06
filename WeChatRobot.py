@@ -299,7 +299,7 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     elif msg_type == 'event':
         msg_event = xmlData.find('Event').text
-        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n【2023暑期钜惠】加入即可\n✅无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\n也可加我微信交流更多「javastarboy」"
+        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n网站版（支持GPT-4模型）👇\nhttps://www.jsbcp.top/\n\n也可加我微信交流更多「javastarboy」"
         if msg_event == 'subscribe':
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':
