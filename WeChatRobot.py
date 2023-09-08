@@ -142,6 +142,7 @@ def getLastContentByLoop(firstTime, lastTime, CreateTime, FromUserName, failureM
         current_time = time.time()
 
     if lastContent:
+        lastContent = lastContent + getAdvert()
         return lastContent
     else:
         return failureMsg
@@ -165,6 +166,13 @@ def getDescription():
     msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢见谅~\n\n"
     msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
     msg += "欢迎加入🔥AI2.0实验室交流微信群：https://www.jsbcp-1.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    return msg
+
+
+def getAdvert():
+    msg = "\n\n————————————\n网站版ChatGPT👇\n"
+    msg += "https://www.jsbcp-1.top/"
+    msg += "\n提问技巧请看公众号AI指令拆解合集教程[得意]"
     return msg
 
 
@@ -238,7 +246,7 @@ def chatRobot():
             lastContent = "✅ 火爆全网的AI孙燕姿📢超详细的AI声音克隆教程\nhttps://ydyrb84oyc.feishu.cn/docx/QjSudOjliobzLzxWgRycc2rvnRd \n\n✅ 软件的安装包、AI孙燕姿模型\n链接: https://pan.baidu.com/s/1lRTjKJ9MyKK1hSkYXan9IA?pwd=8888 提取码: 8888 --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'GPT4密码' or content == 'GPT4' or content == 'gpt4密码' or content == 'gpt4':
-            lastContent = "▶ 【2023暑期钜惠】加入即可无限免费使用GPT-4👇\nhttps://www.jsbcp-1.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\n▶ 免费版 ChatGPT 网站升级版：https://www.jsbcp-1.top/\n  👉 GPT3.5模型：永久免费使用！ \n  👉 GPT4.0模型：考虑大家需求不同，支持按量付费（用多少买多少）\n  套餐介绍：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p\n\n▶ 也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp-1.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+            lastContent = "▶ 免费版ChatGPT网站：https://www.jsbcp-1.top/\n  👉 GPT3.5模型：永久免费使用！ \n  👉 GPT4.0模型：考虑大家需求不同，支持按量付费（用多少买多少）\n  套餐介绍：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p\n\n▶ 也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp-1.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI源码' or content == '微信群二维码':
             lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.jsbcp-1.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
@@ -273,13 +281,15 @@ def chatRobot():
             if 10 < (start_time - float(CreateTime)) < 15:
                 print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
                 # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
-                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\n【2023暑期钜惠】加入即可\n✅ 免费获得GPT-4使用权限👇\nhttps://www.jsbcp-1.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png"
+                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\nChatGPT网站版更好用👇\nhttps://www.jsbcp-1.top/"
                 lastContent = getLastContentByLoop(10, 15, CreateTime, FromUserName, failureMsg)
 
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
             else:
                 print("微信第二次请求进来了，开始循环 5s ，若超时则进入第三次请求")
-                failureMsg = 'success'
+                failureMsg = '抱歉小主，请求出现了异常，输入「stop」重新发起对话就好了~\n___________'
+                # 广告
+                failureMsg = failureMsg + getAdvert()
                 lastContent = getLastContentByLoop(5, 11, CreateTime, FromUserName, failureMsg)
 
             return generate_response_xml(FromUserName, ToUserName, lastContent)
@@ -289,6 +299,8 @@ def chatRobot():
             end_time = time.time()
             print(f"用户{FromUserName}请求结束时间={end_time}")
             if (end_time - start_time) < 5:
+                # 广告
+                output_content = output_content + getAdvert()
                 response = generate_response_xml(FromUserName, ToUserName, output_content)
                 return response
             else:
