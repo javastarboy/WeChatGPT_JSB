@@ -254,7 +254,7 @@ def chatRobot():
         elif content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
             # 继续的时候，重试三秒
-            failureMsg = 'GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！'
+            failureMsg = 'GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑）\n\n也可以试试发【语音】向我提问！\n\n如您使用完毕，可以回复【stop】或【暂停】清空您的对话记录！'
             lastContent = getLastContentByLoop(0, 3, time.time(), FromUserName, failureMsg)
 
             return generate_response_xml(FromUserName, ToUserName, lastContent)
