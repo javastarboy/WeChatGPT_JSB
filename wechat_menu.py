@@ -85,7 +85,7 @@ def get_menu_data():
                     {
                         "type": "view",
                         "name": "ChatGPT网页版",
-                        "url": "https://www.jsbcp.top/"
+                        "url": "https://www.jsbcp-1.top/"
                     },
                     # {
                     #     "type": "miniprogram",

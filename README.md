@@ -91,7 +91,7 @@
     - https://ydyrb84oyc.feishu.cn/sheets/OfKvsq41MhRF5wt2kafcrR7lnVg
 
 - 免费学习材料福利导航——飞书版
-    - https://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg
+    - https://ydyrb84oyc.feishu.cn/wiki/SOpywcxjUikIS1k1LQZcTj0unJg
 
 ![](pictures/GPT-4 经典三连问.png)
 
