@@ -158,7 +158,7 @@ def getDescription():
     msg += "-----------------\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
     msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据会自动清除，且不消耗您的token。\n\n"
-    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
+    msg += " 3、视频号「领航猿1号」也已推出视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
     msg += "-----注意事项-----\n"
     msg += " 1、回复「继续」是查阅GPT的最后一次回答（并不是让GPT继续写，千万别混淆） \n\n"
     msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
@@ -281,7 +281,7 @@ def chatRobot():
             if 10 < (start_time - float(CreateTime)) < 15:
                 print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
                 # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
-                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\nChatGPT网站版更好用👇\nhttps://www.jsbcp-1.top/"
+                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信领航猿1号「LHYYH0001」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\nChatGPT网站版更好用👇\nhttps://www.jsbcp-1.top/"
                 lastContent = getLastContentByLoop(10, 15, CreateTime, FromUserName, failureMsg)
 
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
@@ -311,11 +311,11 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     elif msg_type == 'event':
         msg_event = xmlData.find('Event').text
-        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n网站版（支持GPT-4模型）👇\nhttps://www.jsbcp-1.top/\n\n也可加我微信交流更多「javastarboy」"
+        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n网站版（支持GPT-4模型）👇\nhttps://www.jsbcp-1.top/\n\n也可加我微信领航猿1号交流更多「LHYYH0001」"
         if msg_event == 'subscribe':
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':
-            lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【javastarboy】"
+            lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【LHYYH0001】"
         if msg_event == 'CLICK':
             event_key = xmlData.find('EventKey').text
             if event_key == 'reply_description':
