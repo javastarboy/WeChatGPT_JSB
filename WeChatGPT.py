@@ -13,9 +13,9 @@ chat_gpt_key = random.choice(settings.Config.chat_gpt_key.split(','))
 # 领航猿1号的腾讯云服务器函数服务，跳转硅谷区域代理
 url = settings.Config.txProxyUrl
 GPT4_Accounts = settings.Config.GPT4_Account
-# 模型 gpt-3.5-turbo-16k、gpt-3.5-turbo-0613、gpt-4、gpt-4-0613
-MODEL = "gpt-3.5-turbo"
-MODEL4 = "gpt-4-0613"
+# 默认模型 gpt-3.5-turbo、gpt-4、gpt-4-1106-preview
+MODEL = "gpt-4-1106-preview"
+MODEL4 = "gpt-4-1106-preview"
 
 ROLE_USER = "user"
 ROLE_SYSTEM = "system"
