@@ -130,7 +130,7 @@ def num_tokens_from_messages(infoMsg, model):
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
         encoding = tiktoken.get_encoding("cl100k_base")
-    if model.startswith("gpt-3.5-turbo"):  # 注意: 未来的模型可能会偏离这个规则
+    if model.startswith("gpt-3.5-turbo") or model.startswith("gpt-4"):  # 注意: 未来的模型可能会偏离这个规则
         num_tokens = 0
         for message in infoMsg:
             num_tokens += 4
