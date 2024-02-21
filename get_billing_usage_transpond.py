@@ -1,7 +1,6 @@
 import datetime
 # 用您的 API 密钥替换以下字符串
 import json
-
 import requests
 
 import settings
@@ -47,7 +46,7 @@ def getUsage(FromUserName, apikey):
                 if message == "该令牌状态不可用":
                     return "😭对比起，您的账户余额已不足，请联系 LHYYH0001 充值！\n\n" \
                            "✅ 套餐详情：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p \n\n" \
-                           "✅ 永久免费ChatGPT网站：https://www.jsbcp-1.top/ \n" \
+                           "✅ 永久免费ChatGPT网站：https://www.jsbcp-2.top/ \n" \
                            "🔑 密码：🔥AI2.0实验室交流群更新"
                 else:
                     return f"❌ 由于OpenAI官网限制，暂不支持查询官方key余额。\n\n" \
@@ -57,7 +56,7 @@ def getUsage(FromUserName, apikey):
                            f"▶ 关注加领航猿1号好友「LHYYH0001」即可免费体验 3-6 次\n" \
                            f"▶ 加入星球可提供更多使用权限\n" \
                            f"▶ 套餐详情：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p \n\n" \
-                           f"✅ 永久免费ChatGPT网站：https://www.jsbcp-1.top/ \n" \
+                           f"✅ 永久免费ChatGPT网站：https://www.jsbcp-2.top/ \n" \
                            f"🔑 密码：🔥AI2.0实验室交流群更新"
             else:
                 return subscription_response.text

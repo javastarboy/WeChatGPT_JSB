@@ -1,11 +1,10 @@
 import hashlib
 import json
 import random
-import time
-import xml.etree.ElementTree as ET
-
 import requests
+import time
 import werobot
+import xml.etree.ElementTree as ET
 from flask import Flask, request, make_response
 
 import WeChatGPT
@@ -152,7 +151,7 @@ def getDescription():
     """功能说明"""
 
     msg = "【功能说明解答如下】\n\n"
-    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/wiki/SOpywcxjUikIS1k1LQZcTj0unJg \n\n"
+    msg += "【见面礼1】AI大模型全栈知识体系👇\nhttps://www.yuque.com/lhyyh/ai/readme \n\n"
     msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp-2.top/ \n\n"
     msg += "【见面礼3】若需开通 GPT-4 使用权限，请回复「GPT4」 \n"
     msg += "-----------------\n"
