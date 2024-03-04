@@ -1,9 +1,8 @@
 import json
 import random
-import time
-
 import requests
 import tiktoken
+import time
 
 # 你的 api_key
 import settings
@@ -98,6 +97,7 @@ def completion(prompt, FromUserName):
     print(f"===》用户 {FromUserName} 使用 {model} 模型, apiKey = {apiKey}\n")
     print(f"===》ChatGPT 实时交互完成，耗时 {time.time() - start_time} 秒\n")
     print(f"===》请求头={headers}")
+    print(f"===》请求报文={prompt}")
     print(f"===》返回信息为：\n {response.json()}", flush=True)
     print(f"==================================================\n\n")
 
@@ -217,12 +217,13 @@ def dealMsg(role, msg, msgRole, FromUserName):
             第一条：role = system
             后三条：历史上下文保留三条数据（含当前最新消息）
         """
-        if len(messages) > 6:
+        if len(messages) > 50:
+            print("对话长度超过 50 条，阉割对话记录！")
             if messages[-1]["role"] == ROLE_USER:
                 # 主要针对"继续写"场景，最后一条为 user 一定是用户问了新问题
-                print([messages[0]] + messages[-4:])
+                messages = [messages[0]] + messages[-48:]
             else:
                 # 第一条 + 后五条记录（最后一条非 role，那一定是 assistant）
-                print([messages[0]] + messages[-5:])
+                messages = [messages[0]] + messages[-49:]
     # 历史消息
     return messages
