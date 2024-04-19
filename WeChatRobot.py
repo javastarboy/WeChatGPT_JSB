@@ -310,7 +310,7 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     elif msg_type == 'event':
         msg_event = xmlData.find('Event').text
-        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n网站版（支持GPT-4模型）👇\nhttps://www.jsbcp-2.top/\n\n也可加我微信领航猿1号交流更多「LHYYH0001」"
+        lastContent = "本公众号目前支持文本消息、语音消息向GPT提问，快切换对话框试试吧~！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值 7680 元的超值见面礼！\n\n网站版（支持GPT-4模型）👇\nhttps://www.jsbcp-2.top/\n\n也可加我微信领航猿1号「LHYYH0001」交流更多关于AI大模型全栈技术相关知识"
         if msg_event == 'subscribe':
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':
