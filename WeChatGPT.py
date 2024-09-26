@@ -9,7 +9,7 @@ import settings
 from RedisUtil import RedisTool
 
 chat_gpt_key = random.choice(settings.Config.chat_gpt_key.split(','))
-# 领航猿1号的腾讯云服务器函数服务，跳转硅谷区域代理
+# AGI舰长的腾讯云服务器函数服务，跳转硅谷区域代理
 url = settings.Config.txProxyUrl
 GPT4_Accounts = settings.Config.GPT4_Account
 # 默认模型 gpt-3.5-turbo、gpt-4、gpt-4-1106-preview

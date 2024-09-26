@@ -53,7 +53,7 @@ def getUsage(FromUserName, apikey):
                            f"✅ 目前仅支持查询我为大家提供的 GPT-4 转发 key 余额使用情况！\n\n" \
                            f"[庆祝] GPT4.0 转发API套餐介绍(招代理)\n\n" \
                            f"▶ GPT-4 价格低至 1.3元/1刀 \n" \
-                           f"▶ 关注加领航猿1号好友「LHYYH0001」即可免费体验 3-6 次\n" \
+                           f"▶ 关注加AGI舰长好友「LHYYH0001」即可免费体验 3-6 次\n" \
                            f"▶ 加入星球可提供更多使用权限\n" \
                            f"▶ 套餐详情：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p \n\n" \
                            f"✅ 永久免费ChatGPT网站：https://www.jsbcp-2.top/ \n" \

@@ -88,7 +88,7 @@ def getUsage(FromUserName, apikey):
                            f"\n\n如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
 
                 if code == "one_api_error":
-                    return f"对不起, 您的 key 已不可用，如有疑问或需体验 GPT-4，请加微信领航猿1号「LHYYH0001」\n" \
+                    return f"对不起, 您的 key 已不可用，如有疑问或需体验 GPT-4，请加微信AGI舰长「LHYYH0001」\n" \
                            f"返回错误信息如为:" + message
                 else:
                     return subscription_response.text
