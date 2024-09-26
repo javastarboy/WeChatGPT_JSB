@@ -19,13 +19,45 @@
 ## 安装教程
 1.  使用 pip 进行安装模块
     ```
-    pip install -r requirements.txt
+    # 进入项目目录上传源码（路径自己定）
+    cd /home/tomcat/wechatgpt/logs
+    # 上传代码
+    
+    # 安装虚拟环境
+    python3 -m venv venv
+    
+    # 激活并安装依赖
+    source venv/bin/activate
+    
+    # 如果镜像安装有问题，可以 pip config list 查看镜像源（能看到 pip.conf）
+    
+    # 如果报错较多，就升级一下 pip 版本，pip3 install --upgrade pip
+    
+    pip3 install -r requirements.txt
+    
+    # 创建日志文件目录并授权
+    cd /path/to/your/project
+    mkdir -p /home/tomcat/wechatgpt/logs
+    chmod 755 /home/tomcat/wechatgpt/logs
     ```
 2. 运行 
     ```commandline
     python3 WeChatController.py
-    或后台启动
+    # 或后台启动
     nohup python3 WeChatController.py >/dev/null 2>&1 &
+    # 后台启动并输出日志
+    nohup python3 WeChatController.py > /home/tomcat/wechatgpt/logs/wechatgpt.log 2>&1 &
+    # 查看日志
+    tail -f /home/tomcat/wechatgpt/logs/wechatgpt.log
+   
+    # 验证
+    浏览器访问：http://your_domain/chatgpt, 得到响应结果即部署成功
+    接下来到微信公众号后台“安全中心以及基本配置”菜单下配置【域名、IP白名单】即可
+    注意：别忘了放开服务器端口，防火墙等
+    ```
+3. 停服
+    ```
+    kill $(ps -ef | grep "python3 WeChatController.py" | grep -v grep | awk '{print $2}')
     ```
 
 ## 使用说明

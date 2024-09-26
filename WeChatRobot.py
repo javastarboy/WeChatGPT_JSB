@@ -151,7 +151,7 @@ def getDescription():
     """功能说明"""
 
     msg = "【功能说明解答如下】\n\n"
-    msg += "【见面礼1】AI大模型全栈知识体系👇\nhttps://www.yuque.com/lhyyh/ai/readme \n\n"
+    msg += "【见面礼1】AGI舰长个人简介👇\nhttps://www.yuque.com/lhyyh/ai/readme \n\n"
     msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp-2.top/ \n\n"
     msg += "【见面礼3】AI大模型全栈通识课👇\nhttps://www.yuque.com/lhyyh/agi/introduce \n\n"
     msg += "【见面礼4】若需开通 GPT-4 使用权限，请回复「GPT4」 \n"
@@ -168,9 +168,10 @@ def getDescription():
 
 
 def getAdvert():
-    msg = "\n\n————————————\n✅ 网站版ChatGPT👇\n"
-    msg += "https://www.jsbcp-2.top/"
-    msg += "\n提问技巧请看公众号「AI指令保姆级拆解」合集教程[得意]"
+    msg = "\n\n————————————\n✅ 网站版ChatGPT更好用👇\n"
+    msg += "   https://www.jsbcp-2.top/"
+    msg += "\n✅ AI大模型全栈通识课介绍👇\n"
+    msg += "   https://www.yuque.com/lhyyh/agi/introduce"
     return msg
 
 
