@@ -120,7 +120,7 @@
 # AI大模型全栈通识课
 
 如果你觉得我的分享对比有帮助，也欢迎加入我们交流社群，每天都有很多关于 ChatGPT、人工智能 AI、Python、变现创业的相关分享。
-[点我查看社群介绍](https://mp.weixin.qq.com/s/7rEZNtEPSdtwySki_pvPDw)
+[点我查看课程介绍](https://www.yuque.com/lhyyh/agi/introduce)
 
 <div style="text-align:center">
     <img src="pictures/详情页.jpg">
