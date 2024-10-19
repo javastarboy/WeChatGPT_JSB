@@ -54,6 +54,24 @@
     浏览器访问：http://your_domain/chatgpt, 得到响应结果即部署成功
     接下来到微信公众号后台“安全中心以及基本配置”菜单下配置【域名、IP白名单】即可
     注意：别忘了放开服务器端口，防火墙等
+   
+   如果你80端口被占用了，也可以用其他端口，如 808，然后配置Nginx代理
+    公众号后台地址为：https://域名/chatgpt
+    
+    server{
+       server_name 你的域名;
+       
+       # 微信公众号AI对话
+       location /chatgpt/ {
+            proxy_http_version 1.1;
+            proxy_pass http://localhost:808/chatgpt;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $remote_addr;
+            proxy_cache_bypass $http_upgrade;
+            proxy_set_header Accept-Encoding gzip;
+            proxy_read_timeout 300s;
+        }
+    }
     ```
 3. 停服
     ```
