@@ -1,11 +1,10 @@
 import hashlib
 import json
 import random
-import time
-import xml.etree.ElementTree as ET
-
 import requests
+import time
 import werobot
+import xml.etree.ElementTree as ET
 from flask import Flask, request, make_response
 
 import WeChatGPT
@@ -142,6 +141,7 @@ def getLastContentByLoop(firstTime, lastTime, CreateTime, FromUserName, failureM
         current_time = time.time()
 
     if lastContent:
+        lastContent = lastContent + getAdvert()
         return lastContent
     else:
         return failureMsg
@@ -151,20 +151,27 @@ def getDescription():
     """功能说明"""
 
     msg = "【功能说明解答如下】\n\n"
-    msg += "【见面礼1】价值298元ChatGPT及AI绘画学习手册👇\nhttps://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg \n\n"
-    msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp.top/ \n\n"
-    msg += "【见面礼3】若需开通 GPT-4 使用权限，请回复「GPT4」 \n"
+    msg += "【见面礼1】AGI舰长个人简介👇\nhttps://www.yuque.com/lhyyh/ai/readme \n\n"
+    msg += "【见面礼2】国内永久免费的ChatGPT网页版👇\nhttps://www.jsbcp-2.top/ \n\n"
+    msg += "【见面礼3】AI大模型全栈通识课👇\nhttps://www.yuque.com/lhyyh/agi/introduce \n\n"
+    msg += "【见面礼4】若需开通 GPT-4 使用权限，请回复「GPT4」 \n"
     msg += "-----------------\n"
     msg += " 1、此公众号支持文本、语音消息（中国普通话）与ChatGPT进行对话！\n\n"
-    msg += " 2、按照「查询余额+api_key」的格式输入消息（例如【查询余额 sk-adsf****2341】）即可查询您的api_key费用账单。\n我们承诺：您的账单数据会自动清除，且不消耗您的token。\n\n"
-    msg += " 3、视频号 javastarboy 也已推出视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
+    msg += " 2、视频号「AGI舰长」定期分享视频版相关教程，烦请用您发财的小手帮忙点个关注，十分感谢！\n\n"
     msg += "-----注意事项-----\n"
     msg += " 1、回复「继续」是查阅GPT的最后一次回答（并不是让GPT继续写，千万别混淆） \n\n"
     msg += " 2、回复「继续写」可以让GPT联想对话上下文继续为你撰写或重新回答你的问题（伴随着下一次的回复一定是「继续」）！\n\n"
     msg += " 3、输入「历史对话」可以查看您的所有对话记录（1小时内若无对话，将为您清空会话内容，保证您的隐私）\n\n"
     msg += " 4、若出现「请稍后回复『继续』以获取最新结果」是因为微信公众号有5s访问超时限制，而哥们服务器部署在美国硅谷，网络传输一个来回要绕一个地球，所以慢见谅~\n\n"
-    msg += " 5、公众号、视频号文章中分享很多AI圈内资讯、教程、以及技术实践等，感兴趣可以关注一下\n\n"
-    msg += "欢迎加入🔥AI2.0实验室交流微信群：https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    msg += "欢迎加入🔥✅AI全栈·人工智能微信群：https://www.jsbcp-2.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+    return msg
+
+
+def getAdvert():
+    msg = "\n\n————————————\n✅ 网站版ChatGPT更好用👇\n"
+    msg += "   https://www.jsbcp-2.top/"
+    msg += "\n✅ AI大模型全栈通识课介绍👇\n"
+    msg += "   https://www.yuque.com/lhyyh/agi/introduce"
     return msg
 
 
@@ -232,21 +239,21 @@ def chatRobot():
             lastContent = get_billing_usage_transpond.getUsage(FromUserName, key)
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'openai-proxy':
-            lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star \n提取码: star --来自百度网盘超级会员v5的分享"
+            lastContent = "百度网盘链接: https://pan.baidu.com/s/1YSNX3c4F-7iKWZmgeKycVA?pwd=star"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI孙燕姿' or content == 'Ai孙燕姿' or content == 'ai孙燕姿':
             lastContent = "✅ 火爆全网的AI孙燕姿📢超详细的AI声音克隆教程\nhttps://ydyrb84oyc.feishu.cn/docx/QjSudOjliobzLzxWgRycc2rvnRd \n\n✅ 软件的安装包、AI孙燕姿模型\n链接: https://pan.baidu.com/s/1lRTjKJ9MyKK1hSkYXan9IA?pwd=8888 提取码: 8888 --来自百度网盘超级会员v5的分享"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'GPT4密码' or content == 'GPT4' or content == 'gpt4密码' or content == 'gpt4':
-            lastContent = "▶ 【2023暑期钜惠】加入即可无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png\n\n▶ 免费版 ChatGPT 网站升级版：https://www.jsbcp.top/\n  👉 GPT3.5模型：永久免费使用！ \n  👉 GPT4.0模型：考虑大家需求不同，支持按量付费（用多少买多少）\n  套餐介绍：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p\n\n▶ 也可点击链接扫码加入【🔥AI2.0实验室】微信群获得更多福利！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+            lastContent = "👉 免费版ChatGPT网站：https://www.jsbcp-2.top/\n\n👉 升级版ChatGPT网站：https://www.jsbcp-1.top/\n\n👉 升级版使用说明：https://www.yuque.com/lhyyh/ai/tool"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         if content == 'AI源码' or content == '微信群二维码':
-            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【🔥AI2.0实验室 | 交流学习1群】即可获取！\n https://www.jsbcp.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
+            lastContent = "欢迎开启 OpenAI 人工智能之旅，点击链接扫码加入微信群【✅AI全栈·人工智能微信群】即可获取！\n https://www.jsbcp-2.top/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.png"
             return generate_response_xml(FromUserName, ToUserName, lastContent)
         elif content == '继续' or content == '[继续]' or content == '【继续】':
             print(f'用户{FromUserName}输入了{content}，已进入获取上条消息功能！')
             # 继续的时候，重试三秒
-            failureMsg = 'GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n哥们的服务部署在美国硅谷，网络传输会有延迟，请耐心等待...\n\n【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑），基本上每天都会支持一些新功能！\n\n如您使用完毕，可以回复【stop】或【暂停】来结束并情空您的对话记录！'
+            failureMsg = '😊 GPT尚未解析完成，请稍后回复「继续」以获取最新结果!\n\n🌏 建议使用网页版，体验更稳定...\n\n⚠️【强烈建议】回复【功能说明】查看功能清单以及使用说明（为您排惑）\n\n[得意] 也可以试试发【语音】向我提问！\n\n[玫瑰] 如您使用完毕，可以回复【stop】或【暂停】清空您的对话记录！'
             lastContent = getLastContentByLoop(0, 3, time.time(), FromUserName, failureMsg)
 
             return generate_response_xml(FromUserName, ToUserName, lastContent)
@@ -273,13 +280,15 @@ def chatRobot():
             if 10 < (start_time - float(CreateTime)) < 15:
                 print("微信第三次请求进来了，开始循环 5s ，若超时则进入第三次请求")
                 # 微信第三次请求时判断一下 GPT 助手是否已经回复，如果回复了，则返回
-                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信「javastarboy」拉你进入🔥AI2.0实验室\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\n【2023暑期钜惠】加入即可\n✅ 免费获得GPT-4使用权限👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png"
+                failureMsg = "GPT马上处理完，就差一丢丢了，请回复「继续」查看结果!\n\n也可加我微信AGI舰长「LHYYH0001」拉你进入🔥AI全栈微信交流群\n\n⚠️建议回复「功能说明」查看使用说明，解锁新功能并获得超值见面礼[礼物]\n\nChatGPT网站版更好用👇\nhttps://www.jsbcp-2.top/"
                 lastContent = getLastContentByLoop(10, 15, CreateTime, FromUserName, failureMsg)
 
                 return generate_response_xml(FromUserName, ToUserName, lastContent)
             else:
                 print("微信第二次请求进来了，开始循环 5s ，若超时则进入第三次请求")
-                failureMsg = 'success'
+                failureMsg = '抱歉小主，请求出现了异常，输入「stop」重新发起对话就好了~\n___________'
+                # 广告
+                failureMsg = failureMsg + getAdvert()
                 lastContent = getLastContentByLoop(5, 11, CreateTime, FromUserName, failureMsg)
 
             return generate_response_xml(FromUserName, ToUserName, lastContent)
@@ -289,6 +298,8 @@ def chatRobot():
             end_time = time.time()
             print(f"用户{FromUserName}请求结束时间={end_time}")
             if (end_time - start_time) < 5:
+                # 广告
+                output_content = output_content + getAdvert()
                 response = generate_response_xml(FromUserName, ToUserName, output_content)
                 return response
             else:
@@ -299,11 +310,11 @@ def chatRobot():
                 return generate_response_xml(FromUserName, ToUserName, 'success')
     elif msg_type == 'event':
         msg_event = xmlData.find('Event').text
-        lastContent = "本公众号目前支持文本消息、语音消息（中国-普通话）向GPT提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「见面礼」了解公众号使用技巧并免费获得价值298元的超值见面礼！\n\n【2023暑期钜惠】加入即可\n✅无限免费使用GPT-4👇\nhttps://www.jsbcp.top/2023%E6%9A%91%E6%9C%9F%E9%92%9C%E6%83%A0.png"
+        lastContent = "本公众号目前支持文本消息、语音消息向GPT4提问，快切换对话框试试吧~！\n\n 请输入消息「见面礼」了解公众号使用技巧并免费获得价值 7680 元的超值见面礼！\n\n网站版（支持GPT-4模型）👇\nhttps://www.jsbcp-2.top/\n\n也可加我微信AGI舰长「LHYYH0001」交流更多关于\n\n✅ AI大模型全栈技术知识\nhttps://www.yuque.com/lhyyh/ai/readme"
         if msg_event == 'subscribe':
             lastContent = "感谢关注，" + lastContent
         if msg_event == 'unsubscribe':
-            lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【javastarboy】"
+            lastContent = "十分遗憾没有留住小主您，如果哪里给您造成了疑惑，可以私信我给出建议或给您提供一些帮助。 我的微信号【LHYYH0001】"
         if msg_event == 'CLICK':
             event_key = xmlData.find('EventKey').text
             if event_key == 'reply_description':
@@ -313,7 +324,7 @@ def chatRobot():
         return generate_response_xml(FromUserName, ToUserName, lastContent)
     else:
         return generate_response_xml(FromUserName, ToUserName,
-                                     '本公众号目前支持文本消息、语音消息（中国-普通话）向 GPT 提问，可以试试在对话框输入文字来向我提问！\n\n 【送您一份见面礼】请输入消息「功能说明」了解公众号使用技巧并获取见面礼')
+                                     '本公众号目前支持文本消息、语音消息（中国-普通话）向 GPT4 提问，可以试试在对话框输入文字来向我提问！\n\n 请输入消息「功能说明」了解公众号使用技巧并获取见面礼')
 
 
 def generate_response_xml(FromUserName, ToUserName, output_content):
