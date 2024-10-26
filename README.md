@@ -127,7 +127,7 @@
 ## ChatGPT 网页版以及学习手册等福利
 
 - 国内永久免费使用ChatGPT网站
-    - https://www.jsbcp-2.top/
+    - https://javastarboy.com/
 
 - AI 大模型全栈通识课介绍
     - https://www.yuque.com/lhyyh/agi/introduce
