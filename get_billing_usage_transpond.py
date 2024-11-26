@@ -1,7 +1,6 @@
 import datetime
 # 用您的 API 密钥替换以下字符串
 import json
-
 import requests
 
 import settings
@@ -44,15 +43,21 @@ def getUsage(FromUserName, apikey):
                        f"\n\n如遇使用问题，请回复「功能说明」查看此公众号GPT 相关功能使用技巧，感谢您的理解与支持~"
 
             if code == "one_api_error":
-                return f"❌ 由于OpenAI官网限制，暂不支持查询官方key余额。\n\n" \
-                       f"✅ 目前仅支持查询我为大家提供的 GPT-4 转发 key 余额使用情况！\n\n" \
-                       f"[庆祝] GPT4.0 转发API套餐介绍(招代理)\n\n" \
-                       f"▶ GPT-4 价格低至 1.3元/1刀 \n" \
-                       f"▶ 关注加好友「javastarboy」即可免费体验 3-6 次\n" \
-                       f"▶ 加入星球可提供更多使用权限\n" \
-                       f"▶ 套餐详情：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p \n\n" \
-                       f"✅ 永久免费ChatGPT网站：https://www.jsbcp.top/ \n" \
-                       f"🔑 密码：🔥AI2.0实验室交流群更新"
+                if message == "该令牌状态不可用":
+                    return "😭对比起，您的账户余额已不足，请联系 LHYYH0001 充值！\n\n" \
+                           "✅ 套餐详情：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p \n\n" \
+                           "✅ 永久免费ChatGPT网站：https://javastarboy.com/ \n" \
+                           "🔑 密码：🔥AI2.0实验室交流群更新"
+                else:
+                    return f"❌ 由于OpenAI官网限制，暂不支持查询官方key余额。\n\n" \
+                           f"✅ 目前仅支持查询我为大家提供的 GPT-4 转发 key 余额使用情况！\n\n" \
+                           f"[庆祝] GPT4.0 转发API套餐介绍(招代理)\n\n" \
+                           f"▶ GPT-4 价格低至 1.3元/1刀 \n" \
+                           f"▶ 关注加AGI舰长好友「LHYYH0001」即可免费体验 3-6 次\n" \
+                           f"▶ 加入星球可提供更多使用权限\n" \
+                           f"▶ 套餐详情：https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p \n\n" \
+                           f"✅ 永久免费ChatGPT网站：https://javastarboy.com/ \n" \
+                           f"🔑 密码：🔥AI2.0实验室交流群更新"
             else:
                 return subscription_response.text
         except Exception as e:

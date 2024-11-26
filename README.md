@@ -4,11 +4,9 @@
 本项目实现了【微信公众号对接OpenAI】，实现了 ChatGPT 聊天对话功能，仅需要手机与公众号聊天即可，其余的交给代码实现。 没有任何门槛。
 - 先给大家看下效果（大家也可以先关注公众号体验一下）
 - 支持文本、语音消息向 GPT 提问
-
-![](pictures/微信公众号支持语音GPT4.jpeg)
 - 公众号二维码
 <div style="text-align:center">
-    <img src="pictures/公众号二维码.jpg">
+    <img src="pictures/公众号二维码.png">
 </div>
 
 ## 软件架构
@@ -21,13 +19,63 @@
 ## 安装教程
 1.  使用 pip 进行安装模块
     ```
-    pip install -r requirements.txt
+    # 进入项目目录上传源码（路径自己定）
+    cd /home/tomcat/wechatgpt/logs
+    # 上传代码
+    
+    # 安装虚拟环境
+    python3 -m venv venv
+    
+    # 激活并安装依赖
+    source venv/bin/activate
+    
+    # 如果镜像安装有问题，可以 pip config list 查看镜像源（能看到 pip.conf）
+    
+    # 如果报错较多，就升级一下 pip 版本，pip3 install --upgrade pip
+    
+    pip3 install -r requirements.txt
+    
+    # 创建日志文件目录并授权
+    cd /path/to/your/project
+    mkdir -p /home/tomcat/wechatgpt/logs
+    chmod 755 /home/tomcat/wechatgpt/logs
     ```
 2. 运行 
     ```commandline
     python3 WeChatController.py
-    或后台启动
+    # 或后台启动
     nohup python3 WeChatController.py >/dev/null 2>&1 &
+    # 后台启动并输出日志
+    nohup python3 WeChatController.py > /home/tomcat/wechatgpt/logs/wechatgpt.log 2>&1 &
+    # 查看日志
+    tail -f /home/tomcat/wechatgpt/logs/wechatgpt.log
+   
+    # 验证
+    浏览器访问：http://your_domain/chatgpt, 得到响应结果即部署成功
+    接下来到微信公众号后台“安全中心以及基本配置”菜单下配置【域名、IP白名单】即可
+    注意：别忘了放开服务器端口，防火墙等
+   
+   如果你80端口被占用了，也可以用其他端口，如 808，然后配置Nginx代理
+    公众号后台地址为：https://域名/chatgpt
+    
+    server{
+       server_name 你的域名;
+       
+       # 微信公众号AI对话
+       location /chatgpt/ {
+            proxy_http_version 1.1;
+            proxy_pass http://localhost:808/chatgpt;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $remote_addr;
+            proxy_cache_bypass $http_upgrade;
+            proxy_set_header Accept-Encoding gzip;
+            proxy_read_timeout 300s;
+        }
+    }
+    ```
+3. 停服
+    ```
+    kill $(ps -ef | grep "python3 WeChatController.py" | grep -v grep | awk '{print $2}')
     ```
 
 ## 使用说明
@@ -36,7 +84,7 @@
 | key                  | value 含义            | 说明                                             |
 |----------------------|---------------------|------------------------------------------------|
 | weToken              | 微信公众号的 token        | 需要开通并启用服务器配置（需要域名）                             |
-| chat_gpt_key         | openai 的的 api_key   | 不会申请的看我公众号：javastarboy                         |
+| chat_gpt_key         | openai 的的 api_key   | 不会申请的看我公众号：AGI舰长                         |
 | txProxyUrl           | 腾讯云服务器函数服务，跳转硅谷区域代理 | 也可使用其他代理方式                                     |
 | clearSessionTime     | 会话 session 自动失效时间，秒 | 超过此时间清空会话记录，也可不清空，看自己意愿                        |
 | interceptionLength   | 历史对话返回字节长度          | 微信支持的最大字节 2048，大概 600 个汉字左右                    |
@@ -48,10 +96,11 @@
 #### 【2】代理服务说明
 我用的是腾讯云的函数代理服务，购买的是美国硅谷服务器，所以网络问题自然不存在了。
 随时可用，没有门槛，解决了大问题了。
-需要教程的关注我微信公众号：javastarboy 即可获取。
+需要教程的关注我微信公众号：「AGI舰长」即可获取。
 
 #### 【3】微信公众号服务器配置启用说明
-`需要详细教程的也可以关注我微信公众号：javastarboy 即可获取。`
+
+`需要详细教程的也可以关注我微信公众号：AGI舰长 即可获取。`
 - 登录 [微信公众平台](https://mp.weixin.qq.com/)
 - 点击左侧菜单【设置与开发】
 - 点击菜单【基本配置】
@@ -78,33 +127,38 @@
 ## ChatGPT 网页版以及学习手册等福利
 
 - 国内永久免费使用ChatGPT网站
-    - https://www.jsbcp.top
-    - 密码-群里更新：加微信「javastarboy」拉你进群
+    - https://javastarboy.com/
 
-- GPT4.0 转发API套餐介绍（可免费试用 3-6 次）
-    - https://ydyrb84oyc.feishu.cn/docx/XO3AdeWXZo5l8YxrGEHcLFo6n5p
+- AI 大模型全栈通识课介绍
+    - https://www.yuque.com/lhyyh/agi/introduce
 
-- 参数设定说明详见如下链接第三章节《模型等参数的使用说明》介绍
-    - https://ydyrb84oyc.feishu.cn/docx/Vnt9dJ5FzoBH3IxyRW2cNwmln3b
+- AGI舰长个人简介
+    - https://www.yuque.com/lhyyh/ai/readme
 
-- 免费学习材料福利导航——目录版
-    - https://ydyrb84oyc.feishu.cn/sheets/OfKvsq41MhRF5wt2kafcrR7lnVg
-
-- 免费学习材料福利导航——飞书版
-    - https://ydyrb84oyc.feishu.cn/docx/UVLydQxKnowuqmx5mAycm7RdnJg
-
-![](pictures/GPT-4 经典三连问.png)
-
-# 交流社群
+# AI大模型全栈通识课
 
 如果你觉得我的分享对比有帮助，也欢迎加入我们交流社群，每天都有很多关于 ChatGPT、人工智能 AI、Python、变现创业的相关分享。
-[点我查看社群介绍](https://mp.weixin.qq.com/s/7rEZNtEPSdtwySki_pvPDw)
+[点我查看课程介绍](https://www.yuque.com/lhyyh/agi/introduce)
 
-![](pictures/2023暑期钜惠.png)
+<div style="text-align:center">
+    <img src="pictures/详情页.jpg">
+</div>
 
-# 🔥AI2.0实验室 | 交流学习微信群
+# ✅ 联系我
+## AI全栈微信群
+<div style="text-align:center">
+   <img src="pictures/微信交流群.png">
+</div>
 
-![](pictures/微信交流群.png)
+## 个人微信
+<div style="text-align:center">
+    <img src="pictures/个人企微二维码.png">
+</div>
+
+## 抖音号
+<div style="text-align:center">
+    <img src="pictures/抖音号.jpg"  width="400" height="600">
+</div>
 
 # 赞助
 
